@@ -1,0 +1,336 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<html lang="en">
+
+<head>
+    <title>Post A Job</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link href="https://fonts.googleapis.com/css2?family=Kanit&family=Pacifico&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href=" {% static 'CSS/MAINStyle.css' %}">
+        <link rel="stylesheet" href="{% static 'CSS/PostJob/style.css' %}">
+</head>
+
+<body>
+    <header id="nav"></header>
+    <section class="postjob-Container">
+        <div class="Job-Details" style="background-color: #e9e9e9;">
+            <h2 class="offer">Post<span> Job</span></h2>
+            <div class="myForm">
+               {% csrf_token %}
+                <div class="inputField">
+                    <label for="JobName">Job Title</label>
+                    <input id="JobName" type="text" name="title" placeholder="eg. Software Engineer" required>
+                    <div id="jtitle" class="alert"></div>
+                </div>
+                <div class="inputField">
+                    <label for="JobSalary">Salary</label>
+                    <input  id="JobSalary" type="text" name="salary" placeholder="eg. 2000$" required>
+                    <div id="jsalary" class="alert"></div>
+                </div>
+                <div class="inputField">
+                    <label>Years of Experience</label>
+                    <input id="JobExp" type="text" required name="exp" placeholder="eg. 3">
+                    <div id="jexp" class="alert"></div>
+                </div>
+                <div class="inputField">
+                    <label for="JobCompany">Company</label>
+                    <input id="JobCompany" type="text" name="Company" placeholder="eg. Facebook" required>
+                    <div class="alert" id = "jcomp">
+                        <p></p>
+                    </div>
+                </div>
+                <div class="inputField">
+                    <div  class="skills" id="skillc"></div>
+                    <label for="skills">Skills</label>
+                    <input id="skills" type="text" name="Company" placeholder="eg. React J" required>
+                    <div class="alert">
+                        <p></p>
+                    </div>
+                </div>
+                <div class="inputField">
+                    <label>Category</label>
+                    <div class="select-btn">
+                        <span class="btn-text">Select Category</span>
+                        <span class="arrow-dwn">
+                            <i class="fa-solid blackColor fa-caret-down"></i>
+                        </span>
+                    </div>
+                    <ul class="list-items" id="cat">
+                    </ul>
+                    <div class="alert">
+                        <p></p>
+                    </div>
+                </div>
+                <div class="inputField">
+                    <label>Location</label>
+                    <div class="select-btn-two">
+                        <span class="btn-text-two">Select Location</span>
+                        <span class="arrow-dwn">
+                            <i class="fa-solid blackColor fa-caret-down"></i>
+                        </span>
+                    </div>
+                    <ul class="list-items" id="gov">
+                        <li class="item-two">
+                            <span class="item-text"></span>
+                        </li>
+                    </ul>
+                    <div class="alert">
+                        <p></p>
+                    </div>
+                </div>
+                <div class="inputField">
+                    <label for="JobDesc">Job Description</label>
+                    <textarea name="desc" id="JobDesc" cols="40" rows="4"></textarea>
+                    <div class="alert" id="jobdesc-c">
+                        <p></p>
+                    </div>
+                </div>
+                <div class="nodata"></div>
+                <div class="inputField">
+                    <button type="submit" class="button btn-main" id="submitting">Post</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        let skills = document.getElementById("skills");
+let skillsc = document.getElementById("skillc");
+let jtitle = document.getElementById("jtitle");
+let jsalary = document.getElementById("jsalary");
+let jcompany = document.getElementById("JobCompany")
+let jcomp = document.getElementById("jcomp");
+let jexp = document.getElementById("jexp");
+let titleinput = document.getElementById("JobName");
+let salaryinput = document.getElementById("JobSalary");
+let expinput = document.getElementById("JobExp");
+let jobdesc = document.getElementById("JobDesc");
+let jobdescC = document.getElementById("jobdesc-c");
+let jobcompany = document.getElementById("JobCompany");
+let curruser=JSON.parse(localStorage.getItem("user_id"));
+let catArray = JSON.parse(localStorage.getItem("categories"));
+let govArray = JSON.parse(localStorage.getItem("governments"));
+let Skills = [];
+
+function displaycat() {
+     let data = ``;
+     for (let i = 0; i < catArray.length; i++) {
+          data += `<li class="item">
+          <span class="item-text">${catArray[i].name}</span>
+          </li>`
+     }
+     if (data.length) {
+          document.getElementById("cat").innerHTML = data;
+     }
+}
+
+function displaygov() {
+     let data = ``;
+     for (let i = 0; i < govArray.length; i++) {
+          data += `<li class="item-two">
+          <span class="item-text">${govArray[i].name}</span>
+          </li>`
+     }
+     if (data.length) {
+          document.getElementById("gov").innerHTML = data;
+     }
+}
+
+titleinput.addEventListener("blur", () => {
+     if (titleinput.value.length < 10) {
+          jtitle.style.display = "block"
+          jtitle.innerHTML = `<p>The minimum Number Of Characters is 10.</p>`
+     } else {
+          jtitle.style.display = "none"
+     }
+})
+
+expinput.addEventListener("blur", () => {
+     if (!expinput.value) {
+          jexp.style.display = "block"
+          jexp.innerHTML = `<p>Years of Experience is required.</p>`
+     } else {
+          jexp.style.display = "none"
+     }
+})
+
+jcompany.addEventListener("blur", () => {
+     if (!jcompany.value) {
+          jcomp.style.display = "block"
+          jcomp.innerHTML = `<p>Company name is required.</p>`
+     } else {
+          jcomp.style.display = "none"
+     }
+})
+
+expinput.addEventListener("keyup", (e) => {
+     if (e.key != "1" && e.key != "2" && e.key != "3" && e.key != "4" && e.key != "5" && e.key != "6" && e.key != "7" && e.key != "8" && e.key != "9" && e.key != "0") {
+          expinput.value = expinput.value.slice(0, expinput.value.length - 1);
+          jexp.style.display = "block"
+          jexp.innerHTML = `<p>Years of Experience must be a number.</p>`
+     } else {
+          jexp.style.display = "none"
+     }
+})
+
+salaryinput.addEventListener("keyup", (e) => {
+     if (e.key != "1" && e.key != "2" && e.key != "3" && e.key != "4" && e.key != "5" && e.key != "6" && e.key != "7" && e.key != "8" && e.key != "9" && e.key != "0") {
+          salaryinput.value = salaryinput.value.slice(0, salaryinput.value.length - 1);
+          jsalary.style.display = "block"
+          jsalary.innerHTML = `<p>Salary must be numbers.</p>`
+     }
+     else {
+          jsalary.style.display = "none"
+     }
+})
+
+skills.addEventListener("keydown", (e) => {
+     if (e.key == "Enter" && skills.value && Skills.length <= 10) {
+          skillsc.style.display = "flex"
+          Skills.push(skills.value);
+          skills.value = ""
+          displayskills(Skills)
+     }
+})
+
+titleinput.addEventListener("blur", () => {
+     if (titleinput.value.length < 10) {
+          jtitle.style.display = "block"
+          jtitle.innerHTML = `<p>The minimum Number Of Characters is 10.</p>`
+     } else {
+          jtitle.style.display = "none"
+     }
+})
+
+function displayskills(arr) {
+     let data = ``;
+     for (let i = 0; i < arr.length; i++) {
+          data += `<p class="skill"> ${arr[i]} <i onclick="closes(${i})"  class=" close fa-solid fa-xmark fa-1x"></i></p>`
+     }
+     skillsc.innerHTML = data;
+}
+
+function closes(i) {
+     Skills.splice(i, 1);
+     if (Skills.length == 0) {
+          skillsc.style.display = "none"
+     } else {
+
+          displayskills(Skills)
+     }
+}
+
+jobdesc.addEventListener("blur", () => {
+     if (jobdesc.value.length < 10) {
+          jobdescC.style.display = "block"
+          jobdescC.innerHTML = `<p>The minimum Number Of Characters is 10.</p>`
+     } else {
+          jobdescC.style.display = "none"
+     }
+})
+displaycat();
+displaygov();
+
+const selectBtn = document.querySelector(".select-btn"),
+     items = document.querySelectorAll(".item");
+
+selectBtn.addEventListener("click", () => {
+     selectBtn.classList.toggle("open");
+});
+btnText = document.querySelector(".btn-text");
+items.forEach(item => {
+     item.addEventListener("click", () => {
+          item.classList.toggle("checked");
+          let checked = document.querySelectorAll(".checked"),
+               btnText = document.querySelector(".btn-text");
+          if (checked.length >= 1) {
+               item.classList.toggle("checked");
+               btnText.innerText = checked[0].innerText;
+               selectBtn.classList.toggle("open");
+          } else if (checked && checked.length == 1) {
+               btnText.innerText = checked[0].innerText;
+               selectBtn.classList.toggle("open");
+          } else {
+               btnText.innerText = "Select Category";
+          }
+     });
+})
+
+const selectBtntwo = document.querySelector(".select-btn-two"),
+     itemstwo = document.querySelectorAll(".item-two");
+
+selectBtntwo.addEventListener("click", () => {
+     selectBtntwo.classList.toggle("open");
+});
+btnTexttwo = document.querySelector(".btn-text-two");
+itemstwo.forEach(item => {
+     item.addEventListener("click", () => {
+          item.classList.toggle("checkedtwo");
+          let checkedtwo = document.querySelectorAll(".checkedtwo"),
+               btnTexttwo = document.querySelector(".btn-text-two");
+          if (checkedtwo.length >= 1) {
+               item.classList.toggle("checkedtwo");
+               btnTexttwo.innerText = checkedtwo[0].innerText;
+               selectBtntwo.classList.toggle("open");
+          } else if (checkedtwo && checkedtwo.length == 1) {
+               btnTexttwo.innerText = checkedtwo[0].innerText;
+               selectBtntwo.classList.toggle("open");
+          } else {
+               btnText.innerText = "Select Category";
+          }
+     });
+})
+
+let jreq = "Strong technical programming skills utilizing a variety of different coding languages and tools"
+
+let sub = document.getElementById("submitting");
+
+sub.addEventListener("click", () => {
+     if(titleinput.value&&salaryinput.value&&expinput.value&&jobcompany.value&&Skills.length&&btnTexttwo.innerText&&jobdesc.value&&btnText.innerText){
+          PostJobToServer(titleinput.value , salaryinput.value , expinput.value , jobcompany.value , btnText.innerText , btnTexttwo.innerText  , jobdesc.value , curruser,Skills)
+          
+      }else{
+          let alerts=document.querySelector(".nodata")
+          alerts.style=`display:block;`
+          alerts.innerHTML=`<p>ALL DATA ARE REQUIRED</p>`;    
+      }
+     
+})
+
+async function PostJobToServer(title,salary,experience,company,category,location,description,postedBy,skills) {
+     let NewJob={
+          name:(title),
+          salary:(salary),
+          experience:(+experience),
+          company:(company),
+          category:(category) ,
+          location: (location),
+          description: (description),
+          postedBy: (+postedBy),
+          skills:(skills)
+     }
+     sub.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>'
+     let CSRFToken=document.querySelector('[name=csrfmiddlewaretoken]').value
+     await fetch('http://127.0.0.1:8000/api/Postjob',{
+          method:"POST",
+          headers:{
+               'content-type': 'application/json',
+               'X-CSRFToken':CSRFToken
+          },body:JSON.stringify(NewJob)
+     }).then(()=>{
+          window.location.href='./Adminjobs'
+     })
+     .catch((err)=>err);
+     // let data=await ress.Json();
+     // console.log(data.MSG);
+}
+    </script>
+</body>
+
+</html>
+{% endblock content %}
+

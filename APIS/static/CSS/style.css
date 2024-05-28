@@ -1,0 +1,72 @@
+.container{
+    width:60dvw;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    border-radius: 20px;
+    color: white;
+}
+.sign-in-box{
+    height: 90vh;
+    width:100dvw;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    
+    border-radius: 10px;
+    text-transform: capitalize;
+    font-family:  'Gill Sans MT';
+}
+.alert{
+    background-color: rgba(255, 158, 158, 0.722);
+    margin: 10px 0px;
+    display: none;
+    justify-content: start;
+    padding: 10px;
+    /* display: flex; */
+}
+.header{
+    text-transform: capitalize;
+    text-align: center;
+}
+.inputs{
+    text-transform: capitalize;
+    display:flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 10px 0px;
+}
+.inputs input {
+    width:100%;
+    margin-top: 5px;
+    padding:15px 10px;
+    border-radius: 10px;
+}
+
+.button{
+    text-transform: capitalize;
+    align-content: center;
+    border-radius: 10px;
+    background-color: rgb(60, 60, 210);
+    color: white; 
+    font-family:  'Gill Sans MT';  
+    width:100%;
+    font-size: 20px;
+}
+
+p{
+    margin:10px 20px;
+    text-align: center;
+}
+a{
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+@media (max-width:1000px) {
+    .container{
+        /* height: 100vh; */
+        width: 95vw;
+        align-items: center;
+    }
+}

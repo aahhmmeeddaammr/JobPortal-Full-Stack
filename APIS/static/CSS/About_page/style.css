@@ -1,0 +1,166 @@
+.bg-app{
+    align-items: center;
+    background-image:url('../../IMAGES/about images/back.gif');
+    background-repeat: no-repeat;
+    width: 100%;
+    height:70%;
+}
+.bg-gray{
+    min-height:70vh ;
+}
+.about {
+    font-family: 'Nunito Sans', Arial, sans-serif;
+    font-size: large;
+}
+.f-size {
+    font-size: 2em;
+}
+.f-about {
+    font-size: 1em;
+}
+.fc-size {
+    font-size: 110%;
+    font-family: 'Nunito Sans', Arial, sans-serif;
+    color: rgb(172, 172, 172);
+}
+.fd-size {
+    font-size: 110%;
+    font-family: 'Nunito Sans', Arial, sans-serif;
+    color: black;
+}
+.f {
+    font-family: 'Nunito Sans', Arial, sans-serif;
+    color: rgb(172, 172, 172);
+    display: flex;
+    justify-content: center;
+}
+.f2 {
+    font-family: 'Nunito Sans', Arial, sans-serif;
+    font-size: 250%;
+    color: rgb(64, 64, 64);
+    display: flex;
+    justify-content: center;
+    margin-top: 0px;
+}
+.f3 {
+    font-weight: 700;
+    color: rgb(40, 40, 40);
+}
+.bg-gray {
+   padding: 10px  ;
+    background-color: #f8f9fa;
+    text-align: center;
+    align-items: center;
+}
+.tot-info {
+    width: 60%;
+    text-align: center;
+    margin-top: 120px;
+}
+.phs {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-top: 20px;
+    padding: 0px 80px;
+    gap: 2em;
+    
+}
+.ph {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    text-align: center;
+}
+.ph img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+}
+.tot-img {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 25%;
+}
+.tot-img img {
+    width: 100%;
+    height: 100%;
+}
+.df {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-bottom: 3rem;
+}
+
+
+#footer{
+    text-align: left;
+    font-size: 20px;
+    padding: 0px !important;
+}
+.footer_about{
+    width: 40%;
+}
+@media only screen and (max-width: 1250px) {
+    .f-size {
+        font-size: 1.4em;
+    }
+    .f-about {
+        font-size: 0.7em;
+    }
+    .tot-info {
+        margin-top: 20px;
+    }
+    .bg-gray {
+        margin: auto;
+    }
+    .tot-img {
+        width: 80%;
+    }
+    .df {
+        flex-wrap: wrap;
+        align-items: center;
+        text-align: center;
+    }
+    .ph img {
+        width: 120px;
+        height: 120px;
+    }
+    .ph {
+        width: 100%;
+    }
+    .about{
+        margin-top: auto;
+    }
+    .bg-app{
+        width: auto;
+        margin: auto;
+      }
+      .phs{
+        padding: auto inherit;
+      }
+}
+@media only screen and (max-width: 800px) {
+    .f-size {
+        font-size: 0.9em;
+    }
+    .f-about {
+        font-size: 0.5em;
+    }
+    .ph img{
+        width: 100px;
+       
+         height: 100px;
+    }
+    .ph {
+        width: 100%;
+    }
+    .phs{
+        padding: 10px;
+      }
+}

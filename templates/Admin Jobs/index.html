@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Searching about jobs">
+    <meta name="author" content="Abdelrahman Mahmoud">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jobs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href=" {% static 'CSS/MAINStyle.css' %}">
+    <link rel="stylesheet" href=" {% static 'CSS/Admin jobs/style.css' %}">
+</head>
+
+<body>
+    <section>
+        {% csrf_token %}
+        <div class="">    
+            <div class="Jobs">
+                <h1>My Jobs</h1>
+                <div id="jobs"></div>
+            </div>
+        </div>
+    </section> 
+    <script >
+        let curruse= JSON.parse(localStorage.getItem('user_id'));
+function displayjobs(array) {
+    let data=``
+    for(let i=0; i<array.length; i++){
+        data+=`<div class="Job">
+        <div class="Dsc">
+            <div>
+                <h3 onclick="GotoDetails(${array[i].id})" class="jt">${array[i].name}</h3>
+                <span><i class="fa-solid fa-location-dot"></i> ${array[i].location}</span>
+            </div>
+            <div class="button">
+                <button onclick="goTOUpdate(${array[i].id})" class="btn btn-sec-main">Update Job</button>
+                <button onclick="DeleteJob(${array[i].id})"  class="btn btn-main " >Delete Job</button>
+            </div>
+        </div>
+    </div>`;
+    }   
+    if(data){
+        document.getElementById('jobs').innerHTML=data;    
+   }else{
+        document.getElementById('jobs').innerHTML=`<p style="text-align:center;  height:60vh; font-size:40px;">NO JOBS</p>`;    
+   }
+}
+
+async function GetDataFromServer(){
+    let ress=await fetch(`http://127.0.0.1:8000/api/PostedJobs/${curruse}`);
+    let data=await ress.json();
+    displayjobs(data.Jobs)
+}
+
+
+GetDataFromServer();
+
+function GotoDetails(index){
+     localStorage.setItem("dJob",index)
+     location.href="../details";
+}
+let CSRFToken=document.querySelector('[name=csrfmiddlewaretoken]').value
+async function DeleteJob(id) {
+    let ress=await fetch(`http://127.0.0.1:8000/api/DeleteJob/${id}`,{
+        method:"delete",
+        headers:{
+            'content-type': 'application/json',
+            'X-CSRFToken':CSRFToken
+        }
+    })
+    let data=await ress.json();
+    GetDataFromServer()
+}
+
+function goTOUpdate(index){
+    localStorage.setItem("update",JSON.stringify(index));
+    location.href="../update"
+}
+    </script>
+</body>
+</html>
+{% endblock content %}

@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+     <link href="https://fonts.googleapis.com/css2?family=Kanit&family=Pacifico&display=swap" rel="stylesheet">
+     <title>Document</title>
+     <link rel="stylesheet" href=" {% static 'CSS/MAINStyle.css' %}">
+     <link rel="stylesheet" href=" {% static 'CSS/Application_page/style.css' %}">
+</head>
+<body class="bg-app">
+        <!--nav-->
+        <!--nav-->
+        
+        <div class="container_job_form">
+            {% csrf_token %}
+                <h1 class="job_form_title">Job Application Form</h1>
+                <h1 id="Jobtitle"></h1>
+                  <div class="form_group_job_form">
+                    <label for="name" class="label_job_form">Name:</label>
+                    <input type="text" id="name" name="name" class="input_text_job_form" required>
+                  </div>
+                  <div class="form_group_job_form">
+                    <label for="email" class="label_job_form">Email:</label>
+                    <input type="email" id="email" name="email" class="input_email_job_form" required>
+                  </div>
+                  <div class="form_group_job_form">
+                    <label for="resume" class="label_job_form">Upload Resume:</label>
+                    <input type="file" id="resume" name="resume" class="input_file_job_form" accept=".pdf,.doc,.docx" required>
+                  </div>                    
+                  <div class="form_group_job_form">
+                    <label for="salary_expectations" class="label_job_form">Salary Expectations:</label>
+                    <input type="text" id="salary_expectations" name="salary_expectations" class="input_text_job_form">
+                  </div>
+                  <div class="form_group_job_form">
+                    <label for="start_immediately" class="label_job_form">Are you willing to start immediately?</label>
+                    <select id="start_immediately" name="start_immediately" class="input_text_job_form" required>
+                      <option value="yes">Yes</option>
+                      <option value="no">No</option>
+                    </select>
+                  </div>
+                  <div class="form_group_job_form">
+                    <label for="candidate_qualities" class="label_job_form">What makes you the ideal candidate for this position?</label>
+                    <textarea id="candidate_qualities" name="candidate_qualities" class="job_form_textarea" rows="4" required style="resize: none;"></textarea>
+                  </div>
+                  <div class="form_group_job_form">
+                    <label for="company_interest" class="label_job_form">Why do you want to join our company?</label>
+                    <textarea id="company_interest" name="company_interest" class="job_form_textarea" rows="4" required style="resize: none;"></textarea>
+                  </div>
+                  <button type="submit" id="submitButton" class="job_form_button">Submit</button>
+               
+        </div>
+        <!-- External JavaScript -->
+        <!-- <script src="../JS/JOBS.js"></script> -->
+        <script >
+          let Jobtitle=document.getElementById("Jobtitle");
+            let currentjob=JSON.parse(localStorage.getItem("Applyin"))
+            let currentuser=JSON.parse(localStorage.getItem("user_id"))
+            document.getElementById('submitButton').addEventListener('click', function(event) {
+                event.preventDefault();
+                let nameInput = document.getElementById('name');
+                let emailInput = document.getElementById('email');
+                let salary = document.getElementById('salary_expectations');
+                let candidate= document.getElementById('candidate_qualities');
+                let intersts = document.getElementById('company_interest');
+                let resume = document.getElementById('resume');
+                if (nameInput.value.trim() === '') {
+                    nameInput.style.borderColor = 'red';
+                }else{
+                    nameInput.style.borderColor = '';
+                }
+                
+                if (emailInput.value.trim() === '') {
+                    emailInput.style.borderColor = 'red';
+                }else{
+                    emailInput.style.borderColor = '';
+                }
+                
+                let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(emailInput.value.trim())) {
+                    emailInput.style.borderColor = 'red';
+                }else{
+                    emailInput.style.borderColor = '';
+            }
+            
+            if (salary.value.trim() === '') {
+                salary.style.borderColor = 'red';
+            }else{
+                salary.style.borderColor = '';
+            }
+            
+            if (candidate.value.trim() === '') {
+                candidate.style.borderColor = 'red';
+            }else{
+                candidate.style.borderColor = '';
+            }
+            
+            if (intersts.value.trim() === '') {
+                intersts.style.borderColor = 'red';
+            }else{
+                intersts.style.borderColor = '';
+            }
+            
+            function validate_fileupload(input_element)
+            {
+                let fileName = input_element.value;
+                let allowed_extensions = new Array("pdf","doc","docx");
+                let file_extension = fileName.split('.').pop(); 
+                for(let i = 0; i < allowed_extensions.length; i++)
+                {
+                    if(allowed_extensions[i]==file_extension)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            
+            
+            if(!validate_fileupload(resume)){
+                resume.style.color='red';
+            }else{
+                resume.style.color = '';
+            }
+
+            if(candidate.value.trim() === ''||salary.value.trim() === ''||!emailRegex.test(emailInput.value.trim())||!validate_fileupload(resume)||intersts.value.trim() === ''||emailInput.value.trim() === ''||emailInput.value.trim() === ''||nameInput.value.trim() === ''){
+                return;
+            }else{
+                ApplyWithServer(currentuser ,currentjob)
+            }
+        }); 
+        
+        
+        
+        async function ApplyWithServer(userid,jobid){
+            let CSRFToken=document.querySelector('[name=csrfmiddlewaretoken]').value
+            let res=await fetch(`http://127.0.0.1:8000/api/Apply/${userid}/${jobid}`,{
+                    method:"POST",
+                    headers:{
+                        'content-type': 'application/json',
+                        'X-CSRFToken':CSRFToken
+                    }
+                }).then(()=>{
+                    location.href="../appliedjobs"
+                    
+                })
+
+            } 
+
+        </script>
+     <!-- End of External JavaScript -->
+</body>
+</html>
+{% endblock content %}
+

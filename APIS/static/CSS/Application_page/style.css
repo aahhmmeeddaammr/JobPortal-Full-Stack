@@ -1,0 +1,95 @@
+
+.bg-app{
+  align-items: center;
+  background-image:url('../about images/back.gif');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  width: 99%;
+  height:70%;
+}
+.container_job_form {
+    max-width: 600px;
+    margin: 100px auto;
+    margin-bottom: 30px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    font-family:'Nunito Sans', Arial, sans-serif ;
+  }
+  
+  h1.job_form_title {
+    text-align: center;
+  }
+  
+  .form_group_job_form {
+    margin-bottom: 20px;
+  }
+  
+  .label_job_form {
+    font-weight: bold;
+  }
+  
+  .input_text_job_form,
+  .input_email_job_form,
+  textarea.job_form_textarea,
+  button.job_form_button {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 5px;
+  }
+  
+  .input_file_job_form {
+    font-family:'Nunito Sans', Arial, sans-serif ;
+    padding: 6px;
+  }
+  
+  .input_file_job_form::file-selector-button {
+    background-color:#157EFB;
+    color: white;
+    padding: 0.5em;
+    border: none;
+    border-radius: 3px;
+  }
+
+  .input_file_job_form::file-selector-button:hover{
+    background-color: transparent;
+    transition: all 0.5s;
+    border: 2px solid #1470e0;
+    color: #1470e0;
+  }
+  
+
+  button.job_form_button {
+    background-color: #1470e0;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button.job_form_button:hover {
+    background-color: transparent;
+    transition: all 0.5s;
+    border: 2px solid #1470e0;
+    color: #1470e0;
+  }
+  
+  .input_text_job_form:focus,
+  .input_email_job_form:focus,
+  textarea.job_form_textarea:focus {
+    outline: none;
+    border-color: #1470e0;
+    box-shadow: 0 0 5px #1470e0;
+  }
+
+  @media only screen and (max-width: 1000px) {
+  .bg-app{
+    width: auto;
+    height:auto;
+  }
+  }
+
+  

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static%}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- External Stylesheets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit&family=Pacifico&display=swap" rel="stylesheet">
+    <title>Document</title>
+    <link rel="stylesheet" href=" {% static 'CSS/MAINStyle.css' %}">
+
+    <link rel="stylesheet" href=" {% static 'CSS/About_page/style.css' %}">
+</head>
+<body class="bg-app">
+    <!-- Navigation -->
+    <header id="nav">
+        
+    </header>
+    <!-- End of Navigation -->
+
+    <!-- About Section -->
+    <div class="about">
+        <div class="df">
+            <div class="tot-img">
+                
+                <img src={% static 'IMAGES/about images/3mr.jpg' %} alt="searching for job">
+            </div>
+            <div class="tot-info">
+                <span class="f-size">We Are The Job Portal Agency</span>
+                <p class="f-about">On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should turn around and return to its own, safe country. But nothing the copy said could convince her and so it didn’t take long until a few insidious Copy Writers ambushed her, made her drunk with Longe and Parole and dragged her into their agency, where they abused her for their.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-gray about">
+
+        <div class="bg-gray about">
+            <div class="pt-3">
+                <p class="f">Testimonial</p>
+                <p class="f2">Happy<span class="f3">Client</span></p>
+            </div>
+    
+            <div class="phs">
+                <div class="ph">
+                <img src={% static 'IMAGES/about images/molet.png' %} alt="searching for job">
+                    <p class="f-about">Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, voluptatem?</p>
+                    <span class="f-size">Abdelrahman molet</span>
+                    <p class="f-about">Wep developer</p>
+                </div>
+                <div class="ph">
+                <img src={% static 'IMAGES/about images/3mr.jpg' %} alt="searching for job">
+                    <p class="f-about">The Best Web Developer in the world.</p>
+                    <span class="f-size">Ahmed Amr</span>
+                    <p class="f-about">senior Web Developer</p>
+                </div>
+                <div class="ph">
+                <img src={% static 'IMAGES/about images/kagami.jpg' %} alt="searching for job">
+                    <p class="f-about">Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, voluptatem?</p>
+                    <span class="f-size">Youssef Mohamed</span>
+                    <p class="f-about">Security</p>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <!-- End of About Section -->
+    <!-- External JavaScript -->
+    <script  src="{% static 'Js/About_page/main.js' %}"></script>
+    <!-- End of External JavaScript -->
+</body>
+</html>
+{% endblock content %}
+

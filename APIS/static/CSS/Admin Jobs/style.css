@@ -1,0 +1,75 @@
+h1{
+    text-align: center;
+    padding-top: 160px;
+}
+.Search{  
+
+         text-align: center;
+         
+} 
+#Search{
+
+    background-color: #18f98f;
+    color: white;
+    border-radius: 40px;
+    border: 0;
+    font-size: 1.2rem;
+    margin-top: 10px;
+    width: 500px;
+}
+
+
+
+#Search:hover{
+    background-color: white;
+    color: black;
+    border: 0;
+    cursor: pointer;
+    border: #18f98f  2px  solid;
+}
+.ser{
+    text-align: center;
+}
+.delete{
+    background-color: red !important;
+    border-color:red !important ;
+}
+.delete:hover{
+    color: red !important;
+}
+.Dsc{
+    display: flex;
+    background-color:#e9e6e670;
+    margin: 5px 30px;
+    padding: 15px 10px;
+    border-radius: 5px;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s;
+}
+.Dsc div:first-of-type{
+    width: 45%;
+}
+.button{
+    text-align: end;
+    width: 30%;
+}
+.button button{
+    display: inline-block;
+    text-wrap: nowrap;
+}
+.Delete{
+    background-color: tomato;
+    color: white;
+    border: 0;
+    border-radius: 40px;
+    width: 100px;
+}
+
+.Job{
+    padding-bottom: 10px;
+
+}
+span{
+    color: #157efb;
+}

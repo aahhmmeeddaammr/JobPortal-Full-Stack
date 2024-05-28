@@ -1,0 +1,84 @@
+body{
+    background-color:lightgray;
+    color:black;
+}
+section{
+    margin: 5dvh 4dvw;
+    background-color: white;
+    border-radius: 5px;
+    padding:0px;
+    margin-bottom: 2vh;
+}
+section:first-of-type{
+    margin-top: 100px;
+}
+.container{
+    padding: 2dvw 5dvw !important;
+    margin: 0px;
+}
+.job-des{
+    width:12%;
+    display: flex;
+}
+.job-des .d , .skill {
+    background-color:  #999fa5ad;
+    border-radius: 5px;
+    padding: 0.5dvh 1dvw;
+    margin-right: 0.5dvw;
+    font-size: 0.9rem;
+    min-width: fit-content;
+    text-wrap: nowrap;
+}
+.button{
+    margin-top: 2dvh;
+    margin-bottom: 2dvh;
+}
+.btn-sec {
+    border: none;
+    padding: 1dvh 2dvw;
+    border-radius: 5px;
+    color: #000000;
+    cursor: pointer;
+    transition: color  0.5s;
+    transition:  0.5s;
+    text-decoration: none;
+}
+.btn-secc-main {
+    background-color: #5dd28e !important;
+    color: #fff ;
+    border: #5dd28e 2px solid;
+    transition: all 0.5s;
+    font-size: 20px;
+}
+.exp p , .Career-level p , .Education-level p , .Salary p , .Job-Categories p{
+    margin-right: 30px;
+}
+
+.job-details{
+    display: flex;
+    width: 60%;
+    flex-wrap: wrap;
+    padding: 40px 0dvw ;
+    /* margin-bottom: 100px; */
+}
+.job-details div{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.job-details div :nth-child(2){
+    width: 70%;
+    color: #686767;
+}
+
+  .skills{
+    margin-top: 10px;
+    display: flex;
+    justify-content: start;
+    flex-wrap: wrap;
+    width: 70dvw;
+    gap: 8px;
+  }
+
+  /* .skill */

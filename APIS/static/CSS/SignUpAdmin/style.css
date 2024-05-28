@@ -1,0 +1,103 @@
+.container{
+    width:700px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    border-radius: 20px;
+    color: white;
+}
+.nodata{
+    background-color: rgba(255, 158, 158, 0.722);
+    margin: 10px 0px;
+    display: none;
+    justify-content: start;
+    padding: 10px;
+<<<<<<< HEAD
+=======
+    color: #fff;
+    text-align: center;
+>>>>>>> 2e7f92363e62564cd56705014fb928fd345757f5
+}
+.sign-up-box{
+    height: 50vh;
+    width:100%;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    margin-top:10% ;
+    border-radius: 10px;
+    text-transform: capitalize;
+    font-family:  'Gill Sans MT';
+}
+
+.alert{
+    background-color: green;
+    margin: 10px 0px;
+    display: flex;
+    justify-content: start;
+    color: white;
+    padding: 3px;
+    border-radius: 10px;
+    display: none;
+}
+
+.admin {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    gap: 4px;
+    align-items: center;
+}
+
+.header{
+    text-transform: capitalize;
+    text-align: center;
+}
+
+.inputs{
+    text-transform: capitalize;
+    display:flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 10px 0px;
+}
+
+.inputfield {
+    width: 100%;
+}
+
+.inputs .inputfield input{
+    width:100%;
+    margin-top: 5px;
+    padding:15px 10px;
+    border-radius: 10px;
+}
+
+.button{
+    text-transform: capitalize;
+    align-content: center;
+    border-radius: 10px;
+    background-color: rgb(60, 60, 210);
+    color: white; 
+    font-family:  'Gill Sans MT';  
+    width:100%;
+    font-size: 20px;
+}
+
+p{
+    margin:10px 20px;
+    text-align: center;
+}
+
+span {
+    font-weight: bold;
+}
+
+span:hover {
+    cursor: pointer;
+}
+
+@media (max-width: 620px ) {
+    .container {
+        width: 410px;
+    }
+}

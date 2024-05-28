@@ -1,0 +1,221 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+
+.postjob-Container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+    margin: auto;
+    margin-top: 90px;
+    padding: 20px 10px;
+    width: 600px;
+}
+
+.offer {
+    font-size: 1.3rem;
+    font-weight: 300;
+    margin-top: 10px;
+}
+
+.offer span {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+
+.Job-Details {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px 20px;
+    justify-content: space-around;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.myForm {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    width: 100%;
+    line-height: 1.6;
+}
+
+.inputField {
+    width: 100%;
+}
+
+.graybg {
+    background-color: #f8f9fa;
+}
+
+.myForm div input {
+    width: 100%;
+    padding: 10px 15px;
+    border: none;
+}
+
+.myForm div input:focus {
+    outline: none;
+    border-bottom: rgb(60, 60, 210) solid 2px;
+}
+
+.myForm div textarea {
+    width: 100%;
+    resize: none;
+    overflow: auto;
+    border: none;
+}
+
+.myForm div textarea:focus {
+    outline: none;
+    border-bottom: rgb(60, 60, 210) solid 2px;
+}
+
+.myForm>div {
+    width: 100%;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.Job-Status {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.Job-Status div {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+}
+
+.button {
+    background-color: rgb(60, 60, 210);
+    color: white;
+    padding: 10px 15px;
+    align-self: center;
+    width: 100%;
+    font-size: 20px;
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+.select-btn, .select-btn-two {
+    display: flex;
+    padding: 10px 15px;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    background-color: #fff;
+}
+
+.select-btn .btn-text, .select-btn-two .btn-text {
+    color: #333;
+}
+
+.select-btn .arrow-dwn, .select-btn-two .arrow-dwn {
+    display: flex;
+    height: 21px;
+    width: 21px;
+    font-size: 14px;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+
+}
+
+.select-btn.open .arrow-dwn, .select-btn-two.open .arrow-dwn {
+    transform: rotate(-180deg);
+}
+
+.list-items {
+    position: relative;
+    margin-top: 15px;
+    padding: 16px;
+    background-color: #fff;
+    display: none;
+}
+
+.select-btn.open~.list-items, .select-btn-two.open~.list-items {
+    display: block;
+}
+
+.list-items .item, .list-items .item-two {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    height: 50px;
+    cursor: pointer;
+    padding: 0 15px;
+    transition: 0.1s;
+}
+
+.list-items .item:hover, .list-items .item-two:hover {
+    background-color: #85a5ff;
+}
+
+.blackColor {
+    color: #a1a1a1;
+}
+
+.item .item-text, .item-two .item-text {
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+}
+
+.skills{
+    display: none;
+    justify-content: start;
+    gap: 8px;
+    flex-wrap: wrap;
+    /* background-color: #87868660; */
+    padding: 10px;
+}
+
+.skill{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 10%;
+    min-width: fit-content;
+    text-wrap: nowrap;
+    padding: 5px 10px;
+    background-color: #74747451;
+    position: relative;
+    color: #fff;
+    border-radius: 20px;
+}
+
+.close{
+    font-size: 14px;
+    margin-left: 7px;
+}
+
+.alert{
+    background-color: rgba(253, 98, 98, 0.329);
+    margin: 10px 0px;
+    display: flex;
+    justify-content: start;
+    padding: 10px;
+    display: none;
+}
+
+@media (max-width: 620px ) {
+    .postjob-Container {
+        width: 410px;
+    }
+}

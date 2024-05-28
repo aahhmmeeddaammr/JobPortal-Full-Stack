@@ -1,0 +1,234 @@
+<style>
+    .navbar
+{
+     display: flex;
+     justify-content: space-around;
+     align-items: center;
+     padding-top: 0px;
+     position: fixed;
+     padding: 2dvh 5dvw ;
+     left: 0;
+     right: 0;
+     top: 0;
+     z-index: 1000;
+     flex-wrap: wrap;
+     background-color: #fff;
+}
+.logo{
+     text-align: left;
+}
+.logo:hover a{
+     color: #157efb !important;
+}
+.logo a{
+     font-size: 30px ;
+     color: #000000;
+     text-decoration: none;
+     font-weight: 800;
+     font-family: "Pacifico", cursive;
+     font-style: normal;     
+     transition: all 0.3s;
+}
+.navbar-nav{
+     display: flex;
+     justify-content: end;
+     font-size: 20px;
+     align-items: center;
+}
+.nav-link{
+     list-style: none;
+     padding: 0px 15px;
+}
+.nav-link a{
+     color: rgb(0, 0, 0);
+     text-decoration: none;
+     transition: all 0.3s;
+}
+.nav-link:hover a{
+     color: #777575;
+}
+.nav-link .btn-main:hover {
+     background-color: #fff;
+     color: #157efb !important;
+}
+.nav-link .btn-sec-main:hover {
+     background-color: #fff;
+     color: #5dd28e !important;
+}
+.nav-link .btn-sec-main:hover i {
+     background-color: #fff;
+     color: #5dd28e !important;
+}
+
+.btn{
+     font-size: 1rem;
+}
+.nav-btn{
+     border: none;
+     background-color: transparent;
+     display: none;
+     z-index: 10939;
+}
+.res-navitems{
+     display: none;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+     width:100% ;
+     margin-top: 10px;
+     padding-left: 30px;
+     padding-right: 30px;
+}
+.res-navitems a,.res-navitems button{
+     width: 100%;
+     margin-top: 10px;
+     text-align: center;
+}
+.res-navitems a{
+     font-size: 20px;
+     text-decoration: none;
+     color: #000000;
+}
+.res-navitems a:hover{
+     color: #777575;
+}
+</style>
+
+<nav>
+
+     <div class=" navbar">
+         <div class="logo">
+             <a href=" {% url 'HOME' %}">JobPortal</a>
+         </div>
+         <div>
+             <button class="nav-btn" onclick="displayItems()">
+                 <i class="fa-solid fa-2x fa-bars"></i>
+             </button>
+         </div>
+         <div class="res-navitems"></div>
+         <div class="nav-links">
+             <ul class="navbar-nav">
+                 <li class="nav-link cursor-pointer"><a href=" {% url 'HOME' %}">Home</a></li>
+                 <li class="nav-link cursor-pointer"><a href=" {% url 'About' %}">About</a></li>
+                 <li class="nav-link cursor-pointer"><a href=" {% url 'appliedjobs' %}">Applied Jobs</a></li>
+                 <li id="admin" class="nav-link cursor-pointer"><a id="Admin" href=" {% url 'Adminjobs' %}">Posted Jobs</a></li>
+                 <li class="nav-link cursor-pointer"><a href=" {% url 'contact' %}">Contact</a></li>
+                 <li id="admin2" class="nav-link">
+                     <a id="Admin2" class="btn btn-main" style="color: aliceblue;" href=" {% url 'postjob' %}">Post a Job</a>
+                 </li>
+                 <li class="nav-link">
+                     <a class="btn btn-sec-main" style="color: aliceblue;" href=" {% url 'Jobs' %}"><i class="fa-solid fa-magnifying-glass"></i> Want a Job</a>
+                 </li>
+             </ul>
+         </div>
+     </div>
+     </nav>
+     <script>
+          
+let navbarlist=document.querySelector('.nav-links');
+let logo=document.querySelector('.logo');
+let navbtn=document.querySelector('.nav-btn');
+let navbar=document.querySelector('.navbar');
+let navbarLinks= [...document.querySelectorAll('.nav-link')];
+let resnavitems=document.querySelector('.res-navitems');
+var state=false;
+window.onresize=responsiveNavbar;
+window.onload=responsiveNavbar;
+if(JSON.parse(localStorage.getItem("user_role"))!="Admin"){
+     console.log("");
+     document.getElementById("admin").style=`display:none;`
+     document.getElementById("admin2").style=`display:none;`
+     document.getElementById("Admin").style=`display:none;`
+     document.getElementById("Admin2").style=`display:none;`
+}
+function responsiveNavbar(){
+     if(window.innerWidth<=1200){
+          resnavitems.style=
+          `
+               display: none;
+          `;
+          navbarlist.style=
+          `
+               display:none;
+          `;
+          navbtn.style=
+          `
+               display:block;
+          `;
+          navbar.style=
+          `
+               padding: 2dvh 5dvw ;
+               justify-content: space-between;
+          `;
+     }else{
+          navbarlist.style=
+          `
+               display:flex;
+          `;
+          navbtn.style=
+          `
+               padding:10px;
+               display:none;
+          `;
+          navbar.style=
+          `
+               justify-content: space-between;
+          `;
+          resnavitems.style=
+          `
+               display: none;
+          `;
+     }
+};
+
+window.onscroll=()=>{
+     if(scrollY>=100)
+     {
+          navbar.style=
+          `
+
+               color: #000000;
+               background-color: #fff;
+               box-shadow: #cfcdcd 1px 3px 3px  1px;
+               justify-content: space-between;
+          `;
+     }else{
+          navbar.style=
+          `
+               background-color: #fff;
+               color: #fff;
+               box-shadow: none;
+               justify-content: space-between;
+          `;
+     }
+};
+function displayItems(){
+     resnavitems.style=
+     `
+          display: flex;
+     `;
+     var data=``;
+     if(!state){
+          for (let index = 0; index < navbarLinks.length; index++) {
+               data+=
+               `
+                    ${
+                         navbarLinks[index].innerHTML
+                    }
+               `
+          }
+          resnavitems.innerHTML=
+          `
+               ${data}
+          ` 
+     }else{
+          resnavitems.style=
+          `
+               display: none;
+          `
+     }
+     state= !state;
+};
+
+
+     </script>

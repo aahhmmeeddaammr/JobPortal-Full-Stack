@@ -1,0 +1,71 @@
+{% load static %}
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Role</title>
+     <link rel="stylesheet" href=" {% static 'CSS/MAINStyle.css' %}">
+     <link rel="stylesheet" href=" {% static 'CSS/ChooseRole/style.css' %}">
+    
+     
+</head>
+<body>
+     <section>
+          <div class="container">
+               
+                    <div class="role-form bg-main">
+                         <h2>Choose Your Role</h2>
+                         <div class="role">
+                              <input onclick="admin()" type="radio"  name="role" value="Admin" id="admin" class=" cursor-pointer">
+                              <label for="admin" class=" cursor-pointer">Admin <i class="fa-solid fa-user-tie"></i></label>
+                         </div>
+                         <div class="role">
+                              <input onclick="user()" class=" cursor-pointer" type="radio" name="role" value="User" id="user">
+                              <label class=" cursor-pointer" for="user">User <i class="fa-regular fa-user"></i></label>
+                         </div>
+                         <button id="btn"   onclick="GoToSignUp()" class="btn btn-sec-main" ><i class="fa-solid fa-right-to-bracket"></i> SignUp</button>
+                    </div>
+     </div>
+     </section>
+     <div class="alert">
+          <p id="message"></p>
+     </div>
+     <script>
+          let alert=document.querySelector(".alert");
+          let message=document.getElementById("message");
+          let btn=document.getElementById("btn");
+          var Role;
+          function admin(){
+               Role="admin"
+          }
+          function user(){
+               Role="user"
+          }
+          function GoToSignUp(){
+               if(Role){
+                    alert.classList.value="alert"
+                    alert.style=`
+                    display:flex; `
+                    if(Role=="user"){
+                         message.innerText="Hello New User";
+                         setTimeout(()=>{
+                              location.href="./signupuser"
+                         },1000)
+                    }else{
+                         message.innerText="Hello New Admin";
+                         setTimeout(()=>{
+                              location.href="../signupadmin"
+                         },1000)
+                    }
+               }else{
+                    message.innerText="Choose Role";
+                    alert.classList.value="alert-w"
+                    alert.style=`
+                         display:flex; 
+                    `
+               }
+          }
+     </script>
+</body>
+</html>

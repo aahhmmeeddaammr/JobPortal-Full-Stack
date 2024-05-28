@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>details</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href=" {% static 'CSS/MAINStyle.css' %}">
+    <link rel="stylesheet" href=" {% static 'CSS/details/style.css' %}">
+        <link href="https://fonts.googleapis.com/css2?family=Kanit&family=Pacifico&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header id="nav">
+        
+    </header>
+
+    <section class="sec1 "> 
+        <div class="container">
+            <h2 id="title">Front-End React Developer at Revealsite </h2>
+            <div class="job-des" id="job-des">
+                <p class="d">Full Time</p>
+                <p class="d">Remote</p>
+            </div>         
+            <div onclick="GoToApply()" class="button" id="Sbtn">
+                <a class="btn-sec btn-secc-main" id="t">Apply For Job</a>
+            </div>   
+        </div>  
+    </section>  
+    
+    <section class="sec2 ">
+        <div class="container">
+            <h2>Job Details</h2>
+            
+            <div class="job-details">
+                <div class="exp">
+                    <p>Experience Needed:</p>
+                    <p id="Experience_Needed" >2 To 5 Years</p>
+                </div>
+                <div class="Career-level">
+                    <p>Carer Level:</p>
+                    <p id="Career_level" >Experienced (Non-Manager)</p>
+                </div>
+                <div class="Education-level">
+                    <p>Education Level:</p>
+                    <p id="Education_level">Bachelor's Degree</p>
+                </div>
+                <div class="Salary">
+                    <p>Salary:</p>
+                    <p id="Salary" >Confidential</p>
+                </div>
+                <div class="Job-Categories">
+                    <p>Job Categories: </p>
+                    <p id="Job_Categories">IT/Software Development | Medical/Healthcare |Pharmaceutical</p>
+                </div>
+            </div>
+            <h3 style="margin-top: 20px;">Skills And Tools:</h3>
+            <div class="skills" id="skills">
+                
+            </div>  
+        </div>
+    </section>
+
+    <section class="sec3">
+        <div class="container">
+            <h2>Job Description</h2>
+            <h3>About The Job:</h3>
+            <p>Revealsite, a frontrunner in digital healthcare solutions, is inviting an experienced React Developer to join our remote team. With a focus on crafting websites, dashboards, digital marketing strategies, and mobile apps for healthcare providers, we are looking for a skilled developer who is passionate about making a significant impact in the healthcare industry. This remote role is perfect for those who excel in a virtual work environment and possess excellent communication skills in English.</p>
+            <h3>Description:</h3>
+            <div class="des" id="Description"></div>
+        </div>
+    </section>
+    <script>
+        let currjob =localStorage.getItem('dJob')
+let CurrUser=localStorage.getItem("user_id");
+
+async function GetDetailsFromServer(){
+    console.log(currjob);
+    let ress=await fetch(`http://127.0.0.1:8000/api/details/${currjob}`)
+    let data=await ress.json();
+    console.log(data.JOB);
+    displayDetails(data.JOB)
+}
+GetDetailsFromServer();
+function displayDetails(Job){
+    let Experience_Needed=document.getElementById('Experience_Needed')
+    let Career_level=document.getElementById('Career_level')
+    let title=document.getElementById('title')
+    let Education_level=document.getElementById('Education_level')
+    let Salary=document.getElementById('Salary')
+    let Job_Categories=document.getElementById('Job_Categories')
+    let Description=document.getElementById('Description')
+    let des_job=document.getElementById('job-des')
+    let Requirements=document.getElementById('Requirements')
+    let skills=document.getElementById('skills')
+    let sk=Job.skills
+    let newskill=""
+    let Sbtn=document.getElementById('Sbtn');
+    console.log(currjob==Job.job.postedBy);
+    if(CurrUser==Job.job.postedBy){
+        Sbtn.addEventListener('click',GoToAllApply)
+        document.getElementById("t").innerText="View All Apply"
+    }else{
+        Sbtn.addEventListener('click',GoToApply)
+        document.getElementById("t").innerText="Apply"
+    }
+    for (let i = 0; i < sk.length; i++) {
+        newskill+=(`<p class="skill">${sk[i].name}</p>`)
+    }
+    skills.innerHTML=newskill;
+    des_job.innerHTML=`<p class="d">Full Time</p><p class="d">On-Site</p>`;
+    title.innerHTML=Job.job.name
+    Experience_Needed.innerHTML=`More than ${Job.job.experience} Year(s)`
+    Career_level.innerHTML=`Mid-Level`
+    Education_level.innerHTML=`Bachelor Degree`
+    Salary.innerHTML=Job.job.salary
+    Job_Categories.innerHTML=Job.job.category
+    Description.innerHTML=Job.job.description
+}
+function GoToApply(){
+    localStorage.setItem("Applyin",currjob);
+    location.href="../apply"
+}
+function GoToAllApply(){
+    localStorage.setItem("Ajob",currjob);
+    location.href="../Applyed"
+}
+
+    </script> 
+</body>
+</html>
+{% endblock content %}

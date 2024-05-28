@@ -1,0 +1,17 @@
+.box{
+    margin-top: 100px;
+    padding: 10dvh 7dvw;
+}
+.user{
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    /* border: 10px black solid; */
+    padding: 20px;
+    align-items: center;
+    background-color: rgba(194, 194, 194, 0.458);
+    border-radius: 10px;
+}
+#uname{
+    font-size: 20px;
+}

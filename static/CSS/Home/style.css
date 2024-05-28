@@ -1,0 +1,419 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    outline: none;
+}
+.loading{
+    background-color: #fff;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.load{
+    height: 60px;
+    width: 60px;
+    border: 5px solid #157efb;
+    border-radius: 50%;
+    border-left-color:transparent ;
+    animation: load;
+    animation-duration: 0.7s;
+    animation-iteration-count: infinite;
+}
+@keyframes load {
+    to{
+        transform: rotate(360deg);
+    }
+}
+.graybg {
+    background-color: #f8f9fa;
+}
+
+
+button {
+    cursor: pointer;
+}
+
+:root {
+    --blue: #157efb;
+}
+
+.overlay {
+    height: 100vh;
+    background-image: url("../../IMAGES/images/home.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center center;
+}
+
+.hm-container{
+    padding: 2dvh 5dvw ;
+}
+
+.home {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+}
+
+.home article {
+    width: 100%;
+}
+
+.offers {
+    line-height: 1;
+    margin-bottom: 1rem;
+}
+
+button{
+    text-wrap: nowrap;
+}
+.offer {
+    color: rgb(255, 255, 255, 0.7);
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.offer2 {
+    color: #fff;
+    font-size: 70px;
+    font-weight: 800;
+
+}
+
+.offer3 {
+    color: #fff;
+    font-size: 70px;
+    font-weight: 300;
+}
+
+.navii {
+    padding: 10px 20px;
+    margin-right: 5px;
+    font-size: 20px;
+    color: #6b6b6b;
+    background-color: #fff;
+    border: none;
+    border-radius: 5px 5px 0 0;
+}
+
+.blue-btn {
+    background-color: var(--blue);
+    color: white;
+}
+
+.search {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #fff;
+    border-radius: 0 5px 5px 5px;
+}
+
+.search-field {
+    padding: 10px 20px;
+    border: 1px solid #fff;
+    width: calc((100% - 80px) / 5);
+    height: 50px;
+    font-size: 15px;
+    font-weight: 400;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: none;
+}
+
+.inputSearch {
+    border-radius: 0px;
+    border: 1px #ccc solid;
+}
+
+.inputSearch:focus {
+    border-bottom: #157efb solid 2px;
+}
+
+.pros {
+    padding-top: 10vh;
+    padding-bottom: 10vh;
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card {
+    width: 25%;
+}
+
+.icon {
+    font-size: 50px;
+    color: var(--blue);
+    margin-bottom: 0.5rem;
+}
+
+.card .title {
+    font-weight: 400;
+    margin-bottom: 0.7rem;
+}
+
+.card .desc {
+    line-height: 1.6;
+    color: #6b6b6b;
+}
+
+.Categories {
+    padding-top: 10vh;
+    padding-bottom: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.Categories .desc {
+    width: 100%;
+    text-align: center;
+    line-height: 1;
+}
+
+
+.desc .intro {
+    color: #6b6b6b;
+    font-size: 20px;
+    margin-bottom: 1rem;
+}
+
+.desc .intro2 {
+    font-size: 50px;
+    font-weight: 300;
+    margin-bottom: 2rem;
+}
+
+.desc .intro2 span {
+    font-weight: 500;
+}
+
+.careers {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-content: space-between;
+    flex-wrap: wrap;
+}
+
+.careers .card {
+    background-color: #fff;
+    color: #00000093;
+    text-align: left;
+    font-weight: 500;
+    width: 24%;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 1px solid #5dd28e8a;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+.careers .card:hover {
+    color: #5dd28e;
+    background-color: #f5fcf8;
+}
+
+.careers .card .counter {
+    color: #449968;
+    padding: 1px 4px;
+    font-size: 13px;
+    background-color: #f5fcf8;
+    border-radius: 5px;
+    margin-left: 5px;
+}
+
+.Categories .jobs {
+    display: flex;
+    width: 100%;
+    text-align: left;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.card2 {
+    width: 100%;
+    background-color: #fff;
+    padding: 23px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.card2 h3 {
+    font-weight: 400;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+p a {
+    text-decoration: none;
+    color: var(--blue);
+}
+
+.card2 button {
+    padding: 15px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+.paginator {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.pg {
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 500;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    color: #5dd28e;
+    border-radius: 50%;
+    border: 1px solid #cccccc8f;
+    margin: 0px 2px;
+    cursor: pointer;
+}
+
+.pg-clicked {
+    background-color: #5dd28e;
+    color: #fff;
+}
+
+.pg-disabled {
+    background-color: #ccc;
+    color: #eee;
+    pointer-events: none;
+    cursor: none;
+}
+
+
+.pg:hover {
+    background-color: #5dd28e;
+    color: #fff;
+}
+
+.counters {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    text-align: center;
+    align-items: center;
+    padding: 10vh;
+    background-image: url("../../IMAGES/images/ss.jpg");
+    background-size: cover;
+    background-position: center center;
+}
+
+.counters p {
+    font-size: 40px;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.counters .stat {
+    font-size: 16px;
+    color: #ccccccb4;
+}
+
+@media (max-width:1313px) {
+
+    .counters .cnt {
+        margin-top: 2.5vh;
+        margin-bottom: 2.5vh;
+        width: 100%;
+    }
+
+}
+
+@media (max-width:1100px) {
+
+    .card2 h1 {
+        font-size: 1.5rem;
+    }
+
+    .search {
+        flex-wrap: wrap;
+    }
+
+    .search-field {
+        width: 100%;
+    }
+
+    .pros {
+        flex-wrap: wrap;
+        padding-top: 2.5vh;
+        padding-bottom: 2.5vh;
+    }
+
+    .pros .card {
+        width: 100%;
+        margin-bottom: 2.5vh;
+        margin-top: 2.5vh;
+    }
+
+    .careers .card {
+        width: 49%;
+    }
+}
+
+@media (max-width:775px) {
+    
+
+    .card2 h1 {
+        font-size: 1rem;
+    }
+
+    .card2 p {
+        font-size: 0.8rem;
+    }
+
+    .card2 button {
+        font-size: 1rem;
+    }
+
+    .offers {
+        text-align: center;
+    }
+
+    .offer {
+        font-size: 1.1rem;
+    }
+
+    .offer2 {
+        font-size: 3.5rem;
+    }
+
+    .offer3 {
+        font-size: 3rem;
+        letter-spacing: 4px;
+    }
+
+    .careers .card {
+        width: 100%;
+    }
+}

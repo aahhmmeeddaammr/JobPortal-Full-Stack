@@ -1,0 +1,138 @@
+.sectitle span {
+     font-weight: 900;
+     font-size: 1.9rem;
+     
+}
+.search{
+     display: flex;
+     flex-wrap: wrap;
+     justify-content: center;
+     align-items: center;
+     padding: 2vw;
+     /* padding-bottom: 30px; */
+     margin: 0;
+     /* border-bottom: #000000 2px solid;  */
+}
+
+.search input{
+     width: 40%;
+     margin: 8px;
+     padding: 17px 30px;
+     border: 1px rgb(131, 127, 127) solid;
+     border-radius: 8px;
+}
+.search button{
+     width: 100%;
+     margin: auto;
+}
+.btnc{
+     width: 20%;
+}
+.jobs a{
+   color: #000000;
+   text-decoration: none;  
+}
+.jobs button a{
+     color: #fff;
+}
+.jobs
+{
+     margin: 100px 0px;
+     text-align: center;
+     padding: 2vw;
+}
+#OurJobs{
+     border-bottom: #000000 2px solid; 
+     border-top: #000000 2px solid; 
+     padding-top: 1vh;
+     padding-bottom: 1vh;
+}
+.job
+{
+     display: flex;
+     background-color: #77757517;
+     margin-top:5px ;
+     justify-content: space-between;
+     align-items: center;
+     text-align: start;
+     padding: 5px 10px;
+     border-radius: 5px;
+     cursor: pointer;
+}
+.job a{
+     color: #fff ;
+     
+}
+
+#title {
+     color: #000000 !important;
+     text-align: start;
+}
+.loc
+{
+     color: #157efb;
+     text-align: start;
+}
+.btn
+{
+     border: none;
+     padding: 15px 20px;
+     border-radius: 5px;
+     color: #ffffff;
+     cursor: pointer;
+     transition: color  0.5s;
+     transition: background-color  0.5s;
+}
+.btn-main {
+     background-color: #157efb !important;
+     color: #fff ;
+     border: #157efb 2px solid;
+     transition: all 0.5s;
+}
+.btn-main:hover {
+     border: #157efb 2px solid;
+     color: #157efb !important;
+     background-color: #fff !important;
+}
+.btn-sec-main {
+     background-color: #5dd28e !important;
+     color: #fff ;
+     border: #5dd28e 2px solid;
+     transition: all 0.5s;
+}
+.btn-sec-main:hover {
+     border: #5dd28e 2px solid;
+     color: #5dd28e !important;
+     background-color: #fff !important;
+}
+.btn-sec-main:hover i {
+     color: #5dd28e !important;
+}
+.Nodata{
+     font-size: 30px;
+     color: #157efb;
+     height: 50vh;
+}
+
+@media (max-width:1200px) {
+     .search input{
+          width: 100vw;
+          margin-top: 5px;
+     }
+     .btnc{
+          margin: auto;
+          width: 100vw;
+          margin-top: 5px;
+     }
+}
+@media (max-width:1000px) {
+     .search input{
+          width: 100vw;
+          margin-top: 5px;
+     }
+     .btnc{
+          width: 100vw;
+          margin-top: 5px;
+     }
+}
+

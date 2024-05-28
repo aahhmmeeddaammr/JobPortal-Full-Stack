@@ -1,0 +1,299 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<html lang="en">
+
+    <head>
+        <title>Home</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href='{% static "CSS/Home/style.css" %}'>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+        <link href="https://fonts.googleapis.com/css2?family=Kanit&family=Pacifico&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href=" {% static 'CSS/MAINStyle.css' %}">
+        <link rel="stylesheet" href=" {% static 'CSS/Home/style.css' %}">
+
+    </head>
+    
+    <body>
+    <header id="nav">
+    </header>
+    <div class="overlay">
+        <div class="hm-container">
+            <div class="home">
+                <div style="width: 100%;">
+                    <div class="offers">
+                        <p class="offer">We have 850,000 great job offers you deserve!</p>
+                        <p class="offer2">Your Dream</p>
+                        <p class="offer3">Job is Waiting</p>
+                    </div>
+                    <div class="serach-bar">
+                        <div class="search">
+                            <input type="text" class="search-field inputSearch" id="title-field" placeholder="Title">
+                            <input type="text" class="search-field inputSearch" id="cat-field" placeholder="Category">
+                            <input type="text" class="search-field inputSearch" id="loc-field" placeholder="Location">
+                            <input type="number" class="search-field inputSearch" id="exp-field"
+                                placeholder="Exprience">
+                            <button class="search-field blue-btn" onclick="searchJobTransfer()">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="graybg">
+        <div class="hm-container">
+            <div class="pros">
+                <div class="card">
+                    <p class="icon">
+                        <i class="fa-solid fa-file-pen"></i>
+                    </p>
+                    <h3 class="title">Search Millions of Jobs</h3>
+                    <p class="desc">A small river named Duden flows by their place and supplies.</p>
+                </div>
+                <div class="card">
+                    <p class="icon">
+                        <i class="fa-solid fa-people-group"></i>
+                    </p>
+                    <h3 class="title">Easy To Manage Jobs</h3>
+                    <p class="desc">A small river named Duden flows by their place and supplies.</p>
+                </div>
+                <div class="card">
+                    <p class="icon">
+                        <i class="fa-solid fa-ranking-star"></i>
+                    </p>
+                    <h3 class="title">Top Careers</h3>
+                    <p class="desc">A small river named Duden flows by their place and supplies.</p>
+                </div>
+                <div class="card">
+                    <p class="icon">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </p>
+                    <h3 class="title">Search Expert Candidates</h3>
+                    <p class="desc">A small river named Duden flows by their place and supplies.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hm-container">
+        <div class="Categories">
+            <div class="desc">
+                <p class="intro">Categories work wating for you</p>
+                <p class="intro2">
+                    Current
+                    <span>Job Posts</span>
+                </p>
+                <div class="careers" id="careersID">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="graybg">
+        <div class="hm-container">
+            <div class="Categories" id="Cat_ID">
+                <div class="desc">
+                    <p class="intro">Recently Added Jobs</p>
+                    <p class="intro2">
+                        Recent
+                        <span>Jobs</span>
+                    </p>
+                    <div class="jobs" id="myJobList">
+                    </div>
+                    <div class="paginator" id="pagenator">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="counters">
+        <div class="cnt">
+            <p class="num">
+                1,350,000
+            </p>
+            <div class="stat">
+                Jobs
+            </div>
+        </div>
+        <div class="cnt">
+            <p class="num">
+                1,350,000
+            </p>
+            <div class="stat">
+                Jobs
+            </div>
+        </div>
+        <div class="cnt">
+            <p class="num">
+                1,350,000
+            </p>
+            <div class="stat">
+                Jobs
+            </div>
+        </div>
+        <div class="cnt">
+            <p class="num">
+                1,350,000
+            </p>
+            <div class="stat">
+                Jobs
+            </div>
+        </div>
+    </div>
+
+    <div class="loading">
+        <div class="load"></div>
+    </div> 
+    <script >
+        let categories = [];
+        async function GetallCategoriesFromServer() {
+            let ress=await fetch('http://127.0.0.1:8000/api/Categories');
+            
+            let data=await ress.json();
+            categories=[...data.categories]
+            console.log(categories);
+            localStorage.setItem("categories", JSON.stringify(categories));
+        }
+        GetallCategoriesFromServer()
+        let governments = [];
+        async function GetallLocationsFromServer() {
+            let ress=await fetch('http://127.0.0.1:8000/api/Locations');
+            let data=await ress.json();
+            governments=[...data.categories]
+            localStorage.setItem("governments", JSON.stringify(governments));
+        }
+        GetallLocationsFromServer()
+        
+
+    let JobArray=[]
+    let CatArray = JSON.parse(localStorage.getItem("categories"));
+    let myJobNode = document.getElementById('myJobList');
+    let myPageNatorNode = document.getElementById('pagenator');
+    let myCatNode = document.getElementById('Cat_ID');
+    let myCareerNode = document.getElementById('careersID');
+    let currentPage = 0;
+    let CurrUser=+localStorage.getItem('user_id')
+
+    async function GetAllJobsFromServer(){
+        let ress =await fetch('http://127.0.0.1:8000/api/');
+        let data=await ress.json();
+        if (data.Jobs.length != 0) {
+            currentPage = 1;
+            JobArray=[...data.Jobs]
+            updatePagenator()
+            displayPageNator();
+        } else {
+            Cat_ID.innerHTML =
+            `<p class="intro2" style="font-size:30px" >No<span > Jobs</span ></p> `;
+        }
+    }
+    GetAllJobsFromServer();
+
+    if(localStorage.getItem("done")){
+        document.querySelector(".loading").style=`display:none;`
+    }else{
+        setTimeout(()=>{
+            document.querySelector(".loading").style=`display:none;`
+        },1500)
+        localStorage.setItem("done",1);
+    }
+
+    function displayPageNator() {
+        myPageNatorNode.innerHTML = "";
+        myPageNatorNode.innerHTML += `<div class="pg ${(currentPage == 1) ? 'pg-disabled' : ''}" onclick="decPage()">
+        <i class="fa-solid fa-arrow-left"></i>
+        </div>`;
+        for (let i = 0; i < JobArray.length; i += 4) {
+            myPageNatorNode.innerHTML += `<div class="pg ${(currentPage == ((i / 4) + 1) ? 'pg-clicked' : '')}" onclick="CurrPage(${(i / 4) + 1})")> ${(i / 4) + 1}</div> `;
+        }
+        myPageNatorNode.innerHTML += `<div class="pg ${(currentPage * 4 >= JobArray.length) ? 'pg-disabled' : ''}" onclick="incPage()" ">
+        <i class="fa-solid fa-arrow-right"></i>`;
+    }
+
+    function updatePagenator() {
+        myJobNode.innerHTML = ``;
+        for (let i = (currentPage - 1) * 4; i < (currentPage * 4) && i < JobArray.length; i++) {
+            console.log(JobArray[1])
+            myJobNode.innerHTML += `
+            <div class="card2">
+                <div>
+                    <h3 onclick="GotoDetails(${JobArray[i].job.id})" class="jt">${JobArray[i].job.name}</h3>
+                    <p>
+                        <!--
+                        <i class="fa-solid fa-building"></i>
+                        <a href="https://facbook.com">Facbook.inc</a>
+                        -->
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>${JobArray[i].job.location}</span>
+                    </p>
+                </div>
+                <a class="btn btn-main" style="text-wrap: nowrap;"  onclick="GoToApply(${JobArray[i].job.id},${JobArray[i].job.postedBy==CurrUser})" >${JobArray[i].job.postedBy==CurrUser?"View Details":"Apply Now"}</a>
+            </div>
+                `;
+            }
+        }
+        function GoToApply(i,a){
+            if(a){
+                GotoDetails(i);
+            }else{
+                localStorage.setItem("Applyin",i);
+                location.href="/apply"
+            } 
+        }
+        function GotoDetails(index){
+            localStorage.setItem("dJob",index)
+            location.href="/details";
+        }
+
+        function incPage() {
+            currentPage++;
+            updatePagenator();
+            displayPageNator();
+        }
+        function decPage() {
+            currentPage--;
+            updatePagenator();
+            displayPageNator();
+        }
+
+        function CurrPage(index) {
+            currentPage = index;
+            updatePagenator();
+            displayPageNator();
+        }
+
+        function searchJobTransfer() {
+            if(document.getElementById('title-field').value){
+                localStorage.setItem("title", JSON.stringify(document.getElementById('title-field').value))
+            }
+            if(document.getElementById('loc-field').value){
+                localStorage.setItem("loc", JSON.stringify(document.getElementById('loc-field').value))
+            }
+            if(document.getElementById('exp-field').value){
+                localStorage.setItem("exp", JSON.stringify(document.getElementById('exp-field').value))
+            }
+
+            if(document.getElementById('cat-field').value){
+                localStorage.setItem("cat", JSON.stringify(document.getElementById('cat-field').value))
+            }
+            location.href = "/Jobs";
+        }
+
+        function pickCategoryTransfer(e){
+            localStorage.setItem("cat", JSON.stringify(e));
+            location.href = "/Jobs";
+        }
+
+        for (let i = 0; i < CatArray.length; i++) {
+            myCareerNode.innerHTML += `
+                <div class="card" onclick="pickCategoryTransfer('${CatArray[i].name}')">${CatArray[i].name}</div>
+            `;
+        }
+    </script>
+</body>
+
+</html>
+
+{% endblock content %}
