@@ -26,7 +26,56 @@
             </div>
     </div>
     <script>
+        let CSRFToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        // Categories 
+        // let xhr=new XMLHttpRequest()
+        // let categories=[]
+        // xhr.open('get',"http://127.0.0.1:8000/api/GetCategories")
+        // xhr.send()
+        // xhr.addEventListener('readystatechange',()=>{
+        //     if(xhr.readyState == 4){
+        //         categories= [...JSON.parse( xhr.responseText ).categories]
+        //         console.log(categories);
+        //     }
+        // } )
+
+        // JOBS
+        // let xhr=new XMLHttpRequest()
+        // let Jobs=[]
+        // xhr.open('get',"http://127.0.0.1:8000/api/GetJobs")
+        // xhr.send()
+        // xhr.addEventListener('readystatechange',()=>{
+        //     if(xhr.readyState == 4){
+        //         Jobs= [...JSON.parse( xhr.responseText ).Jobs]
+        //         console.log(Jobs);
+        //     }
+        // } )
+
         
+    //SignUP
+    //     var xhr = new XMLHttpRequest();
+    // var url = "http://127.0.0.1:8000/api/SignUPFunc"; // Replace with the actual URL of your signup function
+    // xhr.open("POST", url, true);
+    // xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    // xhr.setRequestHeader('X-CSRFToken', CSRFToken);
+    // xhr.onreadystatechange = function () {
+    //     if (xhr.readyState === 4) {
+    //         var jsonResponse = JSON.parse(xhr.responseText);
+    //         console.log(jsonResponse.MSG);
+    //     }
+    // };
+    
+    // var data = JSON.stringify({
+    //     "name": "username",
+    //     "email": "user@example.com",
+    //     "password": "userpassword",
+    //     "role": "Admin" // Add any additional fields as required
+    // });
+    
+    // xhr.send(data);
+        
+
+
         let uemail =document.getElementById('email')
     let upass=document.getElementById('password')
     let btn=document.getElementById('btn')
@@ -47,27 +96,28 @@
     }
 
     async function loginwithServer(email,password){
-        let user={
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', "http://127.0.0.1:8000/api/LoginFun");
+        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+        var data = JSON.stringify({
             email:email,
             password:password
-        }
-        let CSRFToken=document.querySelector('[name=csrfmiddlewaretoken]').value
-        let res=await fetch('http://127.0.0.1:8000/api/Signin',{
-            method:"POST",
-            headers:{
-                'content-type': 'application/json',
-                'X-CSRFToken':CSRFToken
-            },
-            body:JSON.stringify(user)
-        }).then((ress)=>ress).catch((err)=>err)
-        let data = await res.json();
-        if(data.MSG=='Incorrect Email or Password'){
-            vaildation();
-        }else{
-            localStorage.setItem('user_role',JSON.stringify(data.MSG.role))
-            localStorage.setItem('user_id',JSON.stringify(data.MSG.id))
-            location.href="./home"
-        }
+        });
+            
+            xhr.send(data);
+
+        xhr.addEventListener('readystatechange', () => {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200){
+                    var data = JSON.parse( xhr.responseText );
+                    localStorage.setItem('user_role', JSON.stringify( data.UserRole ))
+                    localStorage.setItem('user_id',data.UserID)
+                    location.href="./home"
+                }else{
+                    console.log("Incorrect Email Or Password");
+                }
+            }
+        });
     }
     </script>
 </body>

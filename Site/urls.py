@@ -19,4 +19,11 @@ urlpatterns =[
     path('Search',views.Search.as_view(),name="Search"),    
     path('Postjob',views.Postjob.as_view(),name="Postjob"),
     path('Update',views.Update.as_view(),name="Update"),
+    # FUNCTION
+    path('GetCategories',views.GetCategories,name="GetCategories"),
+    path('LoginFun',views.LoginFun,name="LoginFun"),
+    path('SignUPFunc',views.SignUPFunc,name="SignUPFunc"),
+    path('GetJobs',views.GetJobs,name="GetJobs"),
+    path('GetJob/<slug:ID_slug>',views.GetJob,name="GetJob"),
+    path('Location',views.GetLocations,name="Locations"),
 ]

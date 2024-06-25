@@ -4,7 +4,101 @@ from rest_framework.response import Response
 from APIS.serializers import Jobserializers,Userserializers,Skillserializers,ApplayInserializers,Categoryserializers,Locationserializers
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.http import JsonResponse
 
+import json
+
+#JSON Response
+def GetCategories(request): #done
+    categories = Category.objects.all().values()
+    categories_list = list(categories)
+    return JsonResponse({"categories": categories_list})
+
+def GetLocations(Locations):
+    Locations = Location.objects.all().values()
+    Locations_res = list(Locations)
+    return JsonResponse({"categories": Locations_res})
+
+def LoginFun(request): #done 
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            useremail = data['email']
+            userpassword = data['password']
+            # Assuming you have a User model with email and password fields
+            data = User.objects.get( email = useremail , password = userpassword)
+            return JsonResponse({"MSG": "Login Succefuly" , "UserRole":data.role , "UserID":data.id } , status=200)
+        except User.DoesNotExist:
+            return JsonResponse({"MSG": "Incorrect Email or Password"}, status=400)
+        except Exception as e:
+            return JsonResponse({"MSG": str(e)}, status=500)
+    return JsonResponse({"MSG": "Invalid request method"}, status=405)
+
+def GetJobs( request):
+        jobs=list(Job.objects.all().order_by('-postDate').values())
+        res=[]
+        for i in jobs:
+            skill=list(Skills.objects.filter(jobID = i['id'] ).values())
+            res.append({
+                "job":i ,
+                "skills":skill
+            })
+        return JsonResponse({"Jobs":res},status=200)
+
+def GetJob (request , ID_slug):
+    try:
+        currjob = Job.objects.get(pk=ID_slug)
+        skills = list(Skills.objects.filter(jobID=ID_slug).values())
+        job_data = {
+            "id": currjob.id,
+            "name": currjob.name,
+            "salary": currjob.salary,
+            "experience": currjob.experience,
+            "company": currjob.company,
+            "category": currjob.category.name,
+            "location": currjob.location.name,
+            "postedBy": currjob.postedBy.id,
+            "postDate": currjob.postDate,
+            "description": currjob.description,
+            
+        }
+        res = {
+            "job": job_data,
+            "skills": skills
+        }
+        
+        return JsonResponse({"JOB": res}, status=status.HTTP_200_OK)
+    except Job.DoesNotExist:
+        return JsonResponse({"error": "Job not found"}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+def SignUPFunc (request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        try:
+            if User.objects.filter(email=data['email']).exists():
+                return JsonResponse({"MSG": "USER EXISTS"}, status=status.HTTP_409_CONFLICT)
+            
+            user = User.objects.create(
+                name=data['name'],
+                email=data['email'],
+                password=data['password'],
+                role=data['role'],
+            )
+
+            # If you have additional fields in your User model, set them here
+            # e.g., user.profile.role = data['Role']
+            # user.save()
+
+            return JsonResponse({"MSG": "Done"}, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return JsonResponse({"MSG": f"Invalid Data: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    return JsonResponse({"MSG": "Invalid request method"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
+#RestFull APIs
 class Categories(APIView):
     def get(self,request):
         categories=Category.objects.all()
@@ -22,11 +116,11 @@ class JOBS(APIView):
         jobs=list(Job.objects.all().order_by('-postDate'))
         res=[]
         for i in jobs:
-            serializers=Jobserializers(i,many=False)
-            skill=list(Skills.objects.filter(jobID=i.pk))
-            Sserializers=Skillserializers(skill,many=True)
+            serializers=Jobserializers( i , many = False) # JSON 
+            skill=list(Skills.objects.filter(jobID=i.pk)) # 1 => 1 []
+            Sserializers=Skillserializers(skill,many=True) 
             res.append({
-                "job":serializers.data,
+                "job":serializers.data ,
                 "skills":Sserializers.data
             })
         return Response({"Jobs":res},status=status.HTTP_200_OK)
@@ -51,6 +145,7 @@ class PostedJobs(APIView):
 
 class signUp(APIView):
     def post(self, request):
+        
         try:
             user=User.objects.get(email=request.data['email'])
             res={
