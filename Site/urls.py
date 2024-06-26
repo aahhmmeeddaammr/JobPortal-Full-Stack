@@ -26,4 +26,10 @@ urlpatterns =[
     path('GetJobs',views.GetJobs,name="GetJobs"),
     path('GetJob/<slug:ID_slug>',views.GetJob,name="GetJob"),
     path('Location',views.GetLocations,name="Locations"),
+    path('postedJobs/<slug:ID_slug>',views.postedJobs,name="postedJobs"),
+    path('deletejob/<slug:ID_slug>',views.deletejob,name="deletejob"),
+    path('addskill/<slug:skill_slug>/<slug:ID_slug>',views.addskill,name="addskill"),
+    path('getappliedjobs/<slug:ID_slug>',views.getappliedjobs,name="getappliedjobs"),
+    path('apply/<slug:ID_slug>/<slug:JID_slug>',views.APPLY,name="apply"),
+
 ]

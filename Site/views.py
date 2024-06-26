@@ -97,7 +97,111 @@ def SignUPFunc (request):
     
     return JsonResponse({"MSG": "Invalid request method"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
+def postedJobs( request,ID_slug):
+    users=list(Job.objects.filter(postedBy=ID_slug).values())
+    return JsonResponse({"Jobs":users},status=status.HTTP_200_OK)
 
+
+def deletejob(request,ID_slug):
+        data=Job.objects.get(pk=ID_slug)
+        data.delete()
+        return JsonResponse({"MSG":"DONEE"},status=status.HTTP_200_OK)
+
+def addskill(request,skill_slug,ID_slug):
+        if request.method == 'POST':
+            data = {
+                "name": skill_slug,
+                "jobID": ID_slug
+            }
+            skill = Skill(name=data['name'], jobID=data['jobID'])
+            
+            try:
+                skill.save()
+                response_data = {
+                    "id": skill.id,  # Assuming id is an auto field
+                    "name": skill.name,
+                    "jobID": skill.jobID
+                }
+                return JsonResponse(response_data, status=200)
+            except Exception as e:
+                response_data = {
+                    "error": str(e)
+                }
+                return JsonResponse(response_data, status=400)
+        return JsonResponse({"error": "Invalid request method"}, status=405)
+def getappliedjobs( request,ID_slug):
+        user=ApplayIn.objects.filter(userID=ID_slug).values()
+        users=list(user)
+        jobs=[]
+        
+        for i in user:
+            job=Job.objects.get(pk=i['jobID_id'])
+            job_data = {
+            "id": job.id,
+            "name": job.name,
+            "salary": job.salary,
+            "experience": job.experience,
+            "company": job.company,
+            "category": job.category.name,
+            "location": job.location.name,
+            "postedBy": job.postedBy.id,
+            "postDate": job.postDate,
+            "description": job.description,
+
+        }
+            jobs.append( job_data)
+        return JsonResponse({
+            "JOBS":jobs
+        },status=status.HTTP_200_OK)
+
+def APPLY(request,ID_slug,JID_slug):
+    try:
+        user = User.objects.get(pk=ID_slug)
+        job = Job.objects.get(pk=JID_slug)
+
+        if ApplayIn.objects.filter(userID=user, jobID=job).exists():
+            return JsonResponse({"MSG": "ALREADY APPLIED"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        applayIn = ApplayIn(userID=user, jobID=job)
+        applayIn.save()
+
+        return JsonResponse({"MSG": "DONE"}, status=status.HTTP_200_OK)
+    except User.DoesNotExist:
+        return JsonResponse({"MSG": "USER NOT FOUND"}, status=status.HTTP_400_BAD_REQUEST)
+    except Job.DoesNotExist:
+        return JsonResponse({"MSG": "JOB NOT FOUND"}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return JsonResponse({"MSG": f"ERROR: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+def postjob(request):
+        try:
+            print(data.get("description"))
+            newjob={
+                "name":data.get("name"),
+                "salary":data.get("salary"),
+                "experience":data.get("experience"),
+                "company":data.get("company"),
+                "category":data.get("category"),
+                "location":data.get("location"),
+                "description":data.get("description"),
+                "postedBy":data.get("postedBy"),
+            }
+            newjob.save()
+
+        skills = data.getlist('skills')  # Assuming 'skills' is a list in the request
+        if not skills:
+            return JsonResponse({"MSG": "Skills are required"}, status=400)
+
+        for skill_name in skills:
+            Skill.objects.create(
+                name=skill_name,
+                jobID=newjob
+            )
+
+        return JsonResponse({"MSG": "DONE"}, status=200)
+
+    except Exception as e:
+        return JsonResponse({"MSG": f"INVALID DATA: {str(e)}"}, status=400)
 #RestFull APIs
 class Categories(APIView):
     def get(self,request):
