@@ -149,24 +149,30 @@
     <script >
         let categories = [];
         async function GetallCategoriesFromServer() {
-            let ress=await fetch('http://127.0.0.1:8000/api/Categories');
-            
-            let data=await ress.json();
-            categories=[...data.categories]
-            console.log(categories);
-            localStorage.setItem("categories", JSON.stringify(categories));
+            let xhr=new XMLHttpRequest()
+            xhr.open('get',"http://127.0.0.1:8000/api/GetCategories")
+            xhr.send()
+            xhr.addEventListener('readystatechange',()=>{
+                if(xhr.readyState == 4){
+                    categories= [...JSON.parse( xhr.responseText ).categories]
+                    localStorage.setItem("categories", JSON.stringify(categories));
+                }
+            } )            
         }
         GetallCategoriesFromServer()
         let governments = [];
         async function GetallLocationsFromServer() {
-            let ress=await fetch('http://127.0.0.1:8000/api/Locations');
-            let data=await ress.json();
-            governments=[...data.categories]
-            localStorage.setItem("governments", JSON.stringify(governments));
+            let xhr=new XMLHttpRequest()
+            xhr.open('get',"http://127.0.0.1:8000/api/Location")
+            xhr.send()
+            xhr.addEventListener('readystatechange',()=>{
+                if(xhr.readyState == 4){
+                    governments= [...JSON.parse( xhr.responseText ).categories]
+                    localStorage.setItem("governments", JSON.stringify(governments));
+                }
+            } )  
         }
         GetallLocationsFromServer()
-        
-
     let JobArray=[]
     let CatArray = JSON.parse(localStorage.getItem("categories"));
     let myJobNode = document.getElementById('myJobList');
@@ -177,17 +183,24 @@
     let CurrUser=+localStorage.getItem('user_id')
 
     async function GetAllJobsFromServer(){
-        let ress =await fetch('http://127.0.0.1:8000/api/');
-        let data=await ress.json();
-        if (data.Jobs.length != 0) {
-            currentPage = 1;
-            JobArray=[...data.Jobs]
-            updatePagenator()
-            displayPageNator();
-        } else {
-            Cat_ID.innerHTML =
-            `<p class="intro2" style="font-size:30px" >No<span > Jobs</span ></p> `;
-        }
+        let xhr=new XMLHttpRequest()
+        let Jobs=[]
+        xhr.open('get',"http://127.0.0.1:8000/api/GetJobs")
+        xhr.send()
+        xhr.addEventListener('readystatechange',()=>{
+            if(xhr.readyState == 4){
+                Jobs= [...JSON.parse( xhr.responseText ).Jobs]
+                if (Jobs.length != 0) {
+                    currentPage = 1;
+                    JobArray=[...Jobs]
+                    updatePagenator()
+                    displayPageNator();
+                } else {
+                    Cat_ID.innerHTML =
+                    `<p class="intro2" style="font-size:30px" >No<span > Jobs</span ></p> `;
+                }
+            }
+        } )
     }
     GetAllJobsFromServer();
 

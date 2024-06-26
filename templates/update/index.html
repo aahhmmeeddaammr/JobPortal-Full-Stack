@@ -105,7 +105,7 @@
     </footer>
     
     <script>
-        let currentJob=JSON.parse(localStorage.getItem("update"));
+     let currentJob=JSON.parse(localStorage.getItem("update"));
      let JobNameinput=document.getElementById("JobName");
      let JobSalaryinput=document.getElementById("JobSalary");
      let JobExpinput=document.getElementById("JobExp")
@@ -123,28 +123,38 @@
      let Skills=[];
      GetDataFromServer()
      async function GetDataFromServer(){
-     let ress=await fetch(`http://127.0.0.1:8000/api/details/${currjob}`)
-     let data=await ress.json();
-     displayDetails(data.JOB)
+          let xhr = new XMLHttpRequest();
+          xhr.open('Get', `http://127.0.0.1:8000/api/GetJob/${currjob}`);
+          xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+          xhr.send(newjob);
+          xhr.addEventListener('readystatechange', () => {
+               if (xhr.readyState == 4) {
+                    displayDetails(JSON.parse(xhr.responseText).JOB)
+               }
+          });
+          
      }
      let CSRFToken=document.querySelector('[name=csrfmiddlewaretoken]').value
-     async function DeleteSkill(id,skill){
-          let ress=await fetch(`http://127.0.0.1:8000/api/DeleteSkill/${id}/${skill.name}`,{
-               method:"DELETE",
-               headers:{
-                    'content-type': 'application/json',
-                    'X-CSRFToken':CSRFToken
-               }
-          }).then(()=>{
-               Skills.splice(i, 1);
-               if (Skills.length == 0) {
-                    skillc.style.display = "none"
-               } else {
-                    displayskills(Skills)
-               }
-          })
+     function DeleteSkill(id,skill){
+          let xhr = new XMLHttpRequest();
+          xhr.open('DELETE', `http://127.0.0.1:8000/api/DeleteSkill/${id}/${skill.name}`);
+          xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+          xhr.setRequestHeader('X-CSRFToken',CSRFToken);
+          xhr.send();
+          xhr.addEventListener('readystatechange', () => {
+              if (xhr.readyState == 4) {
+                  if (xhr.status == 200){
+                    Skills.splice(i, 1);
+                    if (Skills.length == 0) {
+                         skillc.style.display = "none"
+                    } else {
+                         displayskills(Skills)
+                    }
+                  }
+              }
+          });
      }
-     async function UpdateJobInServer(name,location,salary,experience,company,category,description){
+     function UpdateJobInServer(name,location,salary,experience,company,category,description){
           let newjob={
                name:name,
                location:location,
@@ -155,17 +165,29 @@
                description:description,
                id:currjob
           }
-          let ress=await fetch(`http://127.0.0.1:8000/api/Update`,{
-               method:"put",
-               headers:{
-                    'content-type': 'application/json',
-                    'X-CSRFToken':CSRFToken
-               },body:JSON.stringify(newjob)
-          }).then(()=>{
-                window.location.href='./Adminjobs'
+          let newjob=JSON.stringify({
+               name:name,
+               location:location,
+               salary:+salary,
+               experience:+experience,
+               company:company,
+               category:category,
+               description:description,
+               id:currjob
           })
+          let xhr = new XMLHttpRequest();
+          xhr.open('PUT', "http://127.0.0.1:8000/api/Updatejob");
+          xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+          xhr.setRequestHeader('X-CSRFToken',CSRFToken);    
+          xhr.send(newjob);
+          xhr.addEventListener('readystatechange', () => {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200){
+                    window.location.href='./Adminjobs'
+                }
+            }
+        });
      }
-
 
      function displayDetails(Job){
           JobNameinput.value=Job.job.name

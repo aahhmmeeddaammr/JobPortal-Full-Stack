@@ -29,7 +29,13 @@ urlpatterns =[
     path('postedJobs/<slug:ID_slug>',views.postedJobs,name="postedJobs"),
     path('deletejob/<slug:ID_slug>',views.deletejob,name="deletejob"),
     path('addskill/<slug:skill_slug>/<slug:ID_slug>',views.addskill,name="addskill"),
+    path('DeleteSkill/<slug:jid_slug>/<slug:skill_slug>',views.Deleteskill,name="DeleteSkill"),
     path('getappliedjobs/<slug:ID_slug>',views.getappliedjobs,name="getappliedjobs"),
     path('apply/<slug:ID_slug>/<slug:JID_slug>',views.APPLY,name="apply"),
+    path('postjob',views.postjob,name="postjob"),
+    path('Updatejob',views.Updatejob,name="Updatejob"),
+    path('GetAllApply/<slug:id_slug>',views.GetAllApply,name="GetAllApply"),
+    path('Removeapplication/<slug:Id_slug>/<slug:jid_slug>',views.Removeapplication,name="Removeapplication"),
+    path('SearchData',views.SearchData,name="SearchData"),
 
 ]

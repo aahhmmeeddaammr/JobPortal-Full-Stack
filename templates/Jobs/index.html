@@ -47,10 +47,8 @@
      let Searchfromhomecat=""
      let Searchfromhomeexp=1000000000;
      let data=[]; 
-
-
      search()
-     async function SearchFromServeer(name,cat,exp,location) {
+     function SearchFromServeer(name,cat,exp,location) {
           let CSRFToken=document.querySelector('[name=csrfmiddlewaretoken]').value
           let searchprams={
                name:name,
@@ -58,22 +56,20 @@
                location:location,
                exp: exp,
           }
-          console.log(searchprams);
-          let ress =await fetch('http://127.0.0.1:8000/api/Search',{
-               method:"POST",
-               headers:{
-                    'content-type': 'application/json',
-                    'X-CSRFToken':CSRFToken
-               },
-               body:JSON.stringify(searchprams)
+          let xhr = new XMLHttpRequest();
+          xhr.open('POST', "http://127.0.0.1:8000/api/Search");
+          xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+          xhr.setRequestHeader('X-CSRFToken',CSRFToken);   
+          xhr.send(JSON.stringify(searchprams));
+          xhr.addEventListener('readystatechange', () => {
+               if (xhr.readyState == 4) {
+                    if (xhr.status == 200){
+                         let  JobArray=[...JSON.parse(xhr.responseText).Jobs]
+                         displayJobs(JobArray)
+                    }
+               }
           });
-          let data=await ress.json();    
-          console.log(data);
-          let  JobArray=[...data.Jobs]
-          displayJobs(JobArray)
-          console.log(CSRFToken);
      }
-
      function getdataFromLocalStorage(){
           if(localStorage.getItem("loc")){
                Searchfromhomelocation=JSON.parse(localStorage.getItem("loc"));

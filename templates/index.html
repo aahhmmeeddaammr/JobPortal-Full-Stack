@@ -95,17 +95,16 @@
         alert.innerHTML=`<p>Incorrect E-mail or Password</p>`
     }
 
-    async function loginwithServer(email,password){
+    function loginwithServer(email,password){
         let xhr = new XMLHttpRequest();
         xhr.open('POST', "http://127.0.0.1:8000/api/LoginFun");
         xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+        xhr.setRequestHeader('X-CSRFToken',CSRFToken);
         var data = JSON.stringify({
             email:email,
             password:password
-        });
-            
-            xhr.send(data);
-
+        });    
+        xhr.send(data);
         xhr.addEventListener('readystatechange', () => {
             if (xhr.readyState == 4) {
                 if (xhr.status == 200){

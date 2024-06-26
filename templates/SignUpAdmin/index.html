@@ -120,22 +120,20 @@ async function SignUpWithServer(email,name,password) {
         password:password
     }
     let CSRFToken=document.querySelector('[name=csrfmiddlewaretoken]').value
-    let ress=await fetch('http://127.0.0.1:8000/api/Signup',{
-        method:"POST",
-        headers:{
-            'content-type': 'application/json',
-            'X-CSRFToken':CSRFToken
-        },
-        body:JSON.stringify(user)
-    }).then((ress)=>ress)
-    .catch((err)=>err)
-    let data=await ress.json();
-    if(data.MSG == 'USER IS EXIST' || data.MSG=='INVALID DATA'){
-        vaidation(data.MSG)
-    }else{
-        location.href='./'
-    }
-    console.log();
+    let xhr = new XMLHttpRequest();
+        xhr.open('POST', "http://127.0.0.1:8000/api/SignUPFunc");
+        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+        xhr.setRequestHeader('X-CSRFToken',CSRFToken);   
+        xhr.send(user);
+        xhr.addEventListener('readystatechange', () => {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 201){
+                    location.href='./'
+                }else{
+                    validation("Enter Correct Data")
+                }
+            }
+        });
 
 }
 

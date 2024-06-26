@@ -9,12 +9,13 @@ from django.http import JsonResponse
 import json
 
 #JSON Response
+
 def GetCategories(request): #done
     categories = Category.objects.all().values()
     categories_list = list(categories)
     return JsonResponse({"categories": categories_list})
 
-def GetLocations(Locations):
+def GetLocations(Locations): #done
     Locations = Location.objects.all().values()
     Locations_res = list(Locations)
     return JsonResponse({"categories": Locations_res})
@@ -34,7 +35,7 @@ def LoginFun(request): #done
             return JsonResponse({"MSG": str(e)}, status=500)
     return JsonResponse({"MSG": "Invalid request method"}, status=405)
 
-def GetJobs( request):
+def GetJobs( request): #done
         jobs=list(Job.objects.all().order_by('-postDate').values())
         res=[]
         for i in jobs:
@@ -45,7 +46,7 @@ def GetJobs( request):
             })
         return JsonResponse({"Jobs":res},status=200)
 
-def GetJob (request , ID_slug):
+def GetJob (request , ID_slug): #done
     try:
         currjob = Job.objects.get(pk=ID_slug)
         skills = list(Skills.objects.filter(jobID=ID_slug).values())
@@ -73,47 +74,41 @@ def GetJob (request , ID_slug):
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-def SignUPFunc (request):
+def postedJobs( request,ID_slug): #done
+    users=list(Job.objects.filter(postedBy=ID_slug).values())
+    return JsonResponse({"Jobs":users},status=status.HTTP_200_OK)
+
+def SignUPFunc (request): #done 
     if request.method == 'POST':
         data = json.loads(request.body)
+        print(data)
         try:
             if User.objects.filter(email=data['email']).exists():
                 return JsonResponse({"MSG": "USER EXISTS"}, status=status.HTTP_409_CONFLICT)
-            
             user = User.objects.create(
                 name=data['name'],
                 email=data['email'],
                 password=data['password'],
-                role=data['role'],
+                role=data['Role'],
             )
-
-            # If you have additional fields in your User model, set them here
-            # e.g., user.profile.role = data['Role']
-            # user.save()
-
             return JsonResponse({"MSG": "Done"}, status=status.HTTP_201_CREATED)
         except Exception as e:
             return JsonResponse({"MSG": f"Invalid Data: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
     
     return JsonResponse({"MSG": "Invalid request method"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
-def postedJobs( request,ID_slug):
-    users=list(Job.objects.filter(postedBy=ID_slug).values())
-    return JsonResponse({"Jobs":users},status=status.HTTP_200_OK)
-
-
-def deletejob(request,ID_slug):
+def deletejob(request,ID_slug): #done 
         data=Job.objects.get(pk=ID_slug)
         data.delete()
         return JsonResponse({"MSG":"DONEE"},status=status.HTTP_200_OK)
 
-def addskill(request,skill_slug,ID_slug):
+def addskill(request,skill_slug,ID_slug): #done 
         if request.method == 'POST':
             data = {
                 "name": skill_slug,
                 "jobID": ID_slug
             }
-            skill = Skill(name=data['name'], jobID=data['jobID'])
+            skill = Skills(name=data['name'], jobID=data['jobID'])
             
             try:
                 skill.save()
@@ -129,7 +124,8 @@ def addskill(request,skill_slug,ID_slug):
                 }
                 return JsonResponse(response_data, status=400)
         return JsonResponse({"error": "Invalid request method"}, status=405)
-def getappliedjobs( request,ID_slug):
+
+def getappliedjobs( request,ID_slug): #done
         user=ApplayIn.objects.filter(userID=ID_slug).values()
         users=list(user)
         jobs=[]
@@ -154,7 +150,7 @@ def getappliedjobs( request,ID_slug):
             "JOBS":jobs
         },status=status.HTTP_200_OK)
 
-def APPLY(request,ID_slug,JID_slug):
+def APPLY(request,ID_slug,JID_slug): #done 
     try:
         user = User.objects.get(pk=ID_slug)
         job = Job.objects.get(pk=JID_slug)
@@ -173,40 +169,110 @@ def APPLY(request,ID_slug,JID_slug):
     except Exception as e:
         return JsonResponse({"MSG": f"ERROR: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-def postjob(request):
-        try:
-            print(data.get("description"))
-            newjob={
-                "name":data.get("name"),
-                "salary":data.get("salary"),
-                "experience":data.get("experience"),
-                "company":data.get("company"),
-                "category":data.get("category"),
-                "location":data.get("location"),
-                "description":data.get("description"),
-                "postedBy":data.get("postedBy"),
-            }
-            newjob.save()
-
+def postjob(request): #done
+    try:
+        data = json.loads(request.body)
+        print(data.get("description"))
+        newjob= Job.objects.create( 
+            name=data.get("name"),
+            salary=data.get("salary"),
+            experience=data.get("experience"),
+            company=data.get("company"),
+            category=data.get("category"),
+            location=data.get("location"),
+            description=data.get("description"),
+            postedBy=data.get("postedBy"),
+        )
         skills = data.getlist('skills')  # Assuming 'skills' is a list in the request
         if not skills:
             return JsonResponse({"MSG": "Skills are required"}, status=400)
-
         for skill_name in skills:
-            Skill.objects.create(
+            Skills.objects.create(
                 name=skill_name,
                 jobID=newjob
             )
-
         return JsonResponse({"MSG": "DONE"}, status=200)
-
     except Exception as e:
         return JsonResponse({"MSG": f"INVALID DATA: {str(e)}"}, status=400)
+
+def Deleteskill(request ,skill_slug , jid_slug): #done
+    skill=Skills.objects.get(jobID=jid_slug,name=skill_slug)
+    skill.delete()
+    return JsonResponse({"MSG":"DONE"},status=status.HTTP_200_OK)
+
+def Updatejob(request): #done
+        try:
+            data = json.loads(request.body)
+            job=Job.objects.get(pk=data['id'])
+            location=Location.objects.get(pk=data['location'])
+            category=Category.objects.get(pk=data['category'])
+            job.name=data["name"]
+            job.salary=data["salary"]
+            job.experience=data["experience"]
+            job.company=data["company"]
+            job.category=category
+            job.location=location
+            job.description=data["description"]
+            job.save()
+            return JsonResponse({"MSG":"DONE"},status=status.HTTP_200_OK)
+        except:
+            return JsonResponse({"MSG":"INVALID DATA"},status=status.HTTP_400_BAD_REQUEST)
+        
+def Removeapplication(request,Id_slug,jid_slug): #done
+    apin=ApplayIn.objects.filter(userID=Id_slug).get(jobID=jid_slug)
+    apin.delete()
+    return JsonResponse({"DATA":"DONE"},status=status.HTTP_200_OK)
+
+def GetAllApply(request,id_slug): #done
+        users=list(ApplayIn.objects.filter(jobID=id_slug).values())
+        users=list(users)
+        res=[]
+        for i in users:
+            print(i)
+            user=User.objects.get(pk=i['userID_id'])
+            res.append(user.name)
+        return JsonResponse({"Users":res},status=status.HTTP_200_OK)
+
+def SearchData(request): #done
+        data = json.loads(request.body)
+        title=data['name']
+        category=data['category']
+        location=data['location']
+        exp=data['exp']
+        filterdata=Job.objects.all()
+        if(title):
+            filterdata=filterdata.filter(name__contains=title)
+        if(category):
+            filterdata=filterdata.filter(category__exact=category)
+        if(location):
+            filterdata=filterdata.filter(location__exact=location)
+        if(exp!=''):
+            filterdata=filterdata.filter(experience__lte=exp)
+        res=[]
+        for currjob in filterdata:
+            skill=list(Skills.objects.filter(jobID=i.pk).values())
+            res.append({
+                "job":{
+                    "id": currjob.id,
+                    "name": currjob.name,
+                    "salary": currjob.salary,
+                    "experience": currjob.experience,
+                    "company": currjob.company,
+                    "category": currjob.category.name,
+                    "location": currjob.location.name,
+                    "postedBy": currjob.postedBy.id,
+                    "postDate": currjob.postDate,
+                    "description": currjob.description,
+                },
+                "skills":skill
+            })
+        return JsonResponse({"Jobs":res},status=status.HTTP_200_OK)
+
 #RestFull APIs
 class Categories(APIView):
     def get(self,request):
         categories=Category.objects.all()
-        res=Categoryserializers(categories,many=True)
+        res=Categoryserializers( categories , many = True )
         return Response({"categories":res.data},status=status.HTTP_200_OK)
 
 class Locations(APIView):

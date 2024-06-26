@@ -78,12 +78,18 @@
         let currjob =localStorage.getItem('dJob')
 let CurrUser=localStorage.getItem("user_id");
 
-async function GetDetailsFromServer(){
-    console.log(currjob);
-    let ress=await fetch(`http://127.0.0.1:8000/api/details/${currjob}`)
-    let data=await ress.json();
-    console.log(data.JOB);
-    displayDetails(data.JOB)
+function GetDetailsFromServer(){
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', `http://127.0.0.1:8000/api/GetJob/${currjob}`);
+    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xhr.send();
+    xhr.addEventListener('readystatechange', () => {
+        if (xhr.readyState == 4) {
+            if (xhr.status == 200){
+                displayDetails(JSON.parse(xhr.responseText).JOB)
+            }
+        }
+    });  
 }
 GetDetailsFromServer();
 function displayDetails(Job){

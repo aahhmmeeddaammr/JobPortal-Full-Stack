@@ -301,7 +301,7 @@ sub.addEventListener("click", () => {
      
 })
 
-async function PostJobToServer(title,salary,experience,company,category,location,description,postedBy,skills) {
+function PostJobToServer(title,salary,experience,company,category,location,description,postedBy,skills) {
      let NewJob={
           name:(title),
           salary:(salary),
@@ -315,18 +315,22 @@ async function PostJobToServer(title,salary,experience,company,category,location
      }
      sub.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>'
      let CSRFToken=document.querySelector('[name=csrfmiddlewaretoken]').value
-     await fetch('http://127.0.0.1:8000/api/Postjob',{
-          method:"POST",
-          headers:{
-               'content-type': 'application/json',
-               'X-CSRFToken':CSRFToken
-          },body:JSON.stringify(NewJob)
-     }).then(()=>{
-          window.location.href='./Adminjobs'
-     })
-     .catch((err)=>err);
-     // let data=await ress.Json();
-     // console.log(data.MSG);
+     let xhr = new XMLHttpRequest();
+     xhr.open('POST', "http://127.0.0.1:8000/api/postjob");
+     xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+     xhr.setRequestHeader('X-CSRFToken',CSRFToken);
+     var data = JSON.stringify({
+          email:email,
+          password:password
+     });    
+     xhr.send(JSON.stringify(NewJob));
+     xhr.addEventListener('readystatechange', () => {
+          if (xhr.readyState == 4) {
+               if (xhr.status == 200){
+                    window.location.href='./Adminjobs'
+               }
+          }
+     });
 }
     </script>
 </body>
