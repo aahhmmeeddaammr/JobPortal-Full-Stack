@@ -5,22 +5,21 @@ from APIS.serializers import Jobserializers,Userserializers,Skillserializers,App
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.http import JsonResponse
-
 import json
 
-#JSON Response
+# JSON Response
 
-def GetCategories(request): #done
+def GetCategories(request): #done mult
     categories = Category.objects.all().values()
     categories_list = list(categories)
     return JsonResponse({"categories": categories_list})
 
-def GetLocations(Locations): #done
+def GetLocations(Locations): #done mult  
     Locations = Location.objects.all().values()
     Locations_res = list(Locations)
     return JsonResponse({"categories": Locations_res})
 
-def LoginFun(request): #done 
+def LoginFun(request): #done nada 
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
@@ -35,7 +34,7 @@ def LoginFun(request): #done
             return JsonResponse({"MSG": str(e)}, status=500)
     return JsonResponse({"MSG": "Invalid request method"}, status=405)
 
-def GetJobs( request): #done
+def GetJobs(request): #done nada
         jobs=list(Job.objects.all().order_by('-postDate').values())
         res=[]
         for i in jobs:
@@ -46,7 +45,7 @@ def GetJobs( request): #done
             })
         return JsonResponse({"Jobs":res},status=200)
 
-def GetJob (request , ID_slug): #done
+def GetJob (request , ID_slug): #done nada
     try:
         currjob = Job.objects.get(pk=ID_slug)
         skills = list(Skills.objects.filter(jobID=ID_slug).values())
@@ -74,12 +73,13 @@ def GetJob (request , ID_slug): #done
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-def postedJobs( request,ID_slug): #done
+def postedJobs( request,ID_slug): #done nada
     users=list(Job.objects.filter(postedBy=ID_slug).values())
     return JsonResponse({"Jobs":users},status=status.HTTP_200_OK)
 
 def SignUPFunc (request): #done 
     if request.method == 'POST':
+        print(request.body)
         data = json.loads(request.body)
         print(data)
         try:
@@ -97,10 +97,10 @@ def SignUPFunc (request): #done
     
     return JsonResponse({"MSG": "Invalid request method"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
-def deletejob(request,ID_slug): #done 
-        data=Job.objects.get(pk=ID_slug)
-        data.delete()
-        return JsonResponse({"MSG":"DONEE"},status=status.HTTP_200_OK)
+def deletejob(request,ID_slug): #done mult  
+    data=Job.objects.get(pk=ID_slug)
+    data.delete()
+    return JsonResponse({"MSG":"DONEE"},status=status.HTTP_200_OK)
 
 def addskill(request,skill_slug,ID_slug): #done 
         if request.method == 'POST':
@@ -125,7 +125,7 @@ def addskill(request,skill_slug,ID_slug): #done
                 return JsonResponse(response_data, status=400)
         return JsonResponse({"error": "Invalid request method"}, status=405)
 
-def getappliedjobs( request,ID_slug): #done
+def getappliedjobs( request,ID_slug): #done  
         user=ApplayIn.objects.filter(userID=ID_slug).values()
         users=list(user)
         jobs=[]
@@ -169,7 +169,7 @@ def APPLY(request,ID_slug,JID_slug): #done
     except Exception as e:
         return JsonResponse({"MSG": f"ERROR: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-def postjob(request): #done
+def postjob(request): #done nada
     try:
         data = json.loads(request.body)
         print(data.get("description"))
@@ -250,7 +250,7 @@ def SearchData(request): #done
             filterdata=filterdata.filter(experience__lte=exp)
         res=[]
         for currjob in filterdata:
-            skill=list(Skills.objects.filter(jobID=i.pk).values())
+            skill=list(Skills.objects.filter(jobID=currjob.pk).values())
             res.append({
                 "job":{
                     "id": currjob.id,
@@ -269,6 +269,7 @@ def SearchData(request): #done
         return JsonResponse({"Jobs":res},status=status.HTTP_200_OK)
 
 #RestFull APIs
+
 class Categories(APIView):
     def get(self,request):
         categories=Category.objects.all()
@@ -506,6 +507,5 @@ class Update(APIView):
             return Response({"MSG":"DONE"},status=status.HTTP_200_OK)
         except:
             return Response({"MSG":"INVALID DATA"},status=status.HTTP_400_BAD_REQUEST)
-
 
 # Create your views here.

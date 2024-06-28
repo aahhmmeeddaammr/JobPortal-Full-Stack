@@ -124,13 +124,13 @@ async function SignUpWithServer(email,name,password) {
         xhr.open('POST', "http://127.0.0.1:8000/api/SignUPFunc");
         xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
         xhr.setRequestHeader('X-CSRFToken',CSRFToken);   
-        xhr.send(user);
+        xhr.send(JSON.stringify( user ));
         xhr.addEventListener('readystatechange', () => {
             if (xhr.readyState == 4) {
                 if (xhr.status == 201){
                     location.href='./'
                 }else{
-                    validation("Enter Correct Data")
+                    vaidation("Enter Correct Data")
                 }
             }
         });
